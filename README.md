@@ -74,6 +74,11 @@ ChangelogBuilder builder = new ChangelogBuilder()
 </changelog>
 ```
 
+### TODO
+
+Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:
+* support online source for xml - https://github.com/MFlisar/changelog/issues/1
+
 ### Credits
 
 This library is inspired by https://github.com/gabrielemariotti/changeloglib and the xml parser and the basic idea is heavily based on Gabriele Mariotti code. Thanks for this
