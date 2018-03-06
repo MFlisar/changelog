@@ -22,7 +22,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:0.4'
+    compile 'com.github.MFlisar:changelog:0.5'
 }
 ```
 
@@ -47,6 +47,13 @@ ChangelogBuilder builder = new ChangelogBuilder()
 
 ```xml
 <changelog>
+
+	<!-- simple example - no version name => will be generated based on verionCode: 100 => v1.00 -->
+	<release versionCode="120" versionName="v1.2" date="2018-03-04">
+		<info>Some info</info>
+		<improvement>Some improvement</improvement>
+		<bugfix>Some bugfix</bugfix>
+	</release>
 	
 	<!-- simple example - no filter -->
 	<release versionCode="120" versionName="v1.2" date="2018-03-04">
