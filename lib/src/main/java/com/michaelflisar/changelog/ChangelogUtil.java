@@ -17,6 +17,12 @@ import java.util.List;
 
 public class ChangelogUtil {
 
+    /**
+     * returns the app version name
+     *
+     * @param context context to use to retrieve the app version name
+     * @return the app version name
+     */
     public static String getAppVersionName(Context context) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -27,6 +33,12 @@ public class ChangelogUtil {
         }
     }
 
+    /**
+     * @param minimumVersionToShow if >0, filters release notes that are meant for version <= this number
+     * @param filter               a custom filter
+     * @param rows                 list of all items of the changelog that needs to be filtered
+     * @return the filtered list of items
+     */
     public static List<IRecyclerViewItem> filterItems(int minimumVersionToShow, IChangelogFilter filter, List<IRecyclerViewItem> rows) {
         if (minimumVersionToShow <= 0 && filter == null) {
             return rows;
@@ -45,13 +57,20 @@ public class ChangelogUtil {
         // 2) check filter
         if (filter != null) {
             for (int i = rowsToAdd.size() - 1; i >= 0; i--) {
-                if (!filter.checkFilter(rowsToAdd.get(i)))
+                if (!filter.checkFilter(rowsToAdd.get(i))) {
                     rowsToAdd.remove(i);
+                }
             }
         }
         return rowsToAdd;
     }
 
+    /**
+     * convert the releases to a list of RecyclerView items
+     *
+     * @param releases the list of all releases parsed from the xml for example
+     * @return a list of RecyclerView items
+     */
     public static List<IRecyclerViewItem> getRecyclerViewItems(List<Release> releases) {
         ArrayList<IRecyclerViewItem> items = new ArrayList<>();
         for (Release release : releases) {

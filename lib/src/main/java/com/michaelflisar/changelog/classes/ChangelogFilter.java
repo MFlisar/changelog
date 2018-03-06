@@ -65,8 +65,8 @@ public class ChangelogFilter implements IChangelogFilter {
 
     ChangelogFilter(Parcel in) {
         mMode = Mode.values()[in.readInt()];
-        mInheritReleaseFilterToRows = in.readInt() == 1;
-        mEmptyFiltersAreValid = in.readInt() == 1;
+        mInheritReleaseFilterToRows = in.readByte() != 0;
+        mEmptyFiltersAreValid = in.readByte() != 0;
         mStringToCheck = in.readString();
     }
 
@@ -78,8 +78,8 @@ public class ChangelogFilter implements IChangelogFilter {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mMode.ordinal());
-        dest.writeInt(mInheritReleaseFilterToRows ? 1 : 0);
-        dest.writeInt(mEmptyFiltersAreValid ? 1 : 0);
+        dest.writeByte((byte) (mInheritReleaseFilterToRows ? 1 : 0));
+        dest.writeByte((byte) (mEmptyFiltersAreValid ? 1 : 0));
         dest.writeString(mStringToCheck);
     }
 

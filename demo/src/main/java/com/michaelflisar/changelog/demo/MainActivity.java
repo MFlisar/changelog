@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
+import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showChangelog() {
+        boolean showAsDialog = mBinding.cbShowAsDialog.isChecked();
         boolean bulletList = mBinding.cbBullets.isChecked();
         boolean showVersion11OrHigherOnly = mBinding.cbFilterVersion11OrHigher.isChecked();
         boolean rowsShouldInheritFilterTextFromReleaseTag = mBinding.cbInheritFilter.isChecked();
@@ -63,24 +65,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Changelog
-        ChangelogBuilder builder = new ChangelogBuilder()
+        ChangelogSetup setup = new ChangelogSetup()
                 .withUseBulletList(bulletList);
         if (showVersion11OrHigherOnly) {
-            builder.withMinVersionToShow(110);
+            setup.withMinVersionToShow(110);
         }
         if (stringToFilter != null) {
             ChangelogFilter changelogFilter = new ChangelogFilter(filterMode, stringToFilter, true, rowsShouldInheritFilterTextFromReleaseTag);
-            builder.withFilter(changelogFilter);
+            setup.withFilter(changelogFilter);
         }
-        builder.buildAndShowDialog(this, false);
+        ChangelogBuilder builder = new ChangelogBuilder(setup);
+        if (showAsDialog) {
+            builder.buildAndShowDialog(this, false);
+        } else {
+            builder.buildAndStartActivity(this);
+        }
     }
 
-    private void disableEnableControls(boolean enable, ViewGroup vg){
-        for (int i = 0; i < vg.getChildCount(); i++){
+    private void disableEnableControls(boolean enable, ViewGroup vg) {
+        for (int i = 0; i < vg.getChildCount(); i++) {
             View child = vg.getChildAt(i);
             child.setEnabled(enable);
-            if (child instanceof ViewGroup){
-                disableEnableControls(enable, (ViewGroup)child);
+            if (child instanceof ViewGroup) {
+                disableEnableControls(enable, (ViewGroup) child);
             }
         }
     }

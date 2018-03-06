@@ -2,20 +2,16 @@ package com.michaelflisar.changelog;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.Xml;
 
-import com.michaelflisar.changelog.Changelog;
-import com.michaelflisar.changelog.internal.Constants;
-import com.michaelflisar.changelog.R;
 import com.michaelflisar.changelog.classes.Release;
 import com.michaelflisar.changelog.classes.Row;
 import com.michaelflisar.changelog.internal.ChangelogException;
+import com.michaelflisar.changelog.internal.Constants;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -23,62 +19,44 @@ import java.io.InputStream;
 
 class ChangelogParserUtil {
 
-    static Changelog readChangeLogFile(Context context, Integer changelogRawFileId) throws Exception {
+    static Changelog readChangeLogFile(Context context, int changelogXmlFileId) throws Exception {
         Changelog changelog = null;
-        if (changelogRawFileId == null) {
-            changelogRawFileId = R.raw.changelog;
-        }
 
         try {
-            InputStream is = context.getResources().openRawResource(changelogRawFileId);
-            if (is != null) {
-                XmlPullParser parser = Xml.newPullParser();
-                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                parser.setInput(is, null);
-                parser.nextTag();
 
-                // 1) Create Changelog object
-                changelog = new Changelog();
+            XmlPullParser parser = context.getResources().getXml(changelogXmlFileId);
 
-                // 2) Parse file into Changelog object
-                parseLogNode(parser, changelog);
+            // 1) Create Changelog object
+            changelog = new Changelog();
 
-                // Close inputstream
-                is.close();
-            } else {
-                Log.d(Constants.DEBUG_TAG, "Changelog.xml not found");
-                throw new ChangelogException("Changelog.xml not found");
-            }
+            // 2) Parse file into Changelog object
+            parseMainNode(parser, changelog);
         } catch (XmlPullParserException xpe) {
             Log.d(Constants.DEBUG_TAG, "XmlPullParseException while parsing changelog file", xpe);
             throw xpe;
         } catch (IOException ioe) {
-            Log.d(Constants.DEBUG_TAG, "Error i/o with changelog.xml", ioe);
+            Log.d(Constants.DEBUG_TAG, "IOException with changelog.xml", ioe);
             throw ioe;
         }
 
         return changelog;
     }
 
-    private static void parseLogNode(XmlPullParser parser, Changelog changelog) throws Exception {
+    private static void parseMainNode(XmlPullParser parser, Changelog changelog) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
         }
 
-        // 1) parse root tag
-        parser.require(XmlPullParser.START_TAG, null, Constants.XML_ROOT_TAG);
-
-        // 2) Parse all nested (=release) nodes
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
+        // Parse all nested (=release) nodes
+        while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() == XmlPullParser.START_TAG) {
+                String tag = parser.getName();
+                if (tag.equals(Constants.XML_RELEASE_TAG)) {
+                    readReleaseNode(parser, changelog);
+                }
             }
-
-            String tag = parser.getName();
-            if (tag.equals(Constants.XML_RELEASE_TAG)) {
-                readReleaseNode(parser, changelog);
-            }
+            parser.next();
         }
     }
 

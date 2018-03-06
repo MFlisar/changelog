@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.michaelflisar.changelog">
+          package="com.michaelflisar.changelog">
+
+    <application>
+
+        <activity android:name=".internal.ChangelogActivity"/>
+
+    </application>
 
 </manifest>

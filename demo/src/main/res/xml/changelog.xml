@@ -1,43 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
-    <!-- Example: we have two flavours, cats and dogs and want to write different changelogs for those flavours summurised in one file -->
-
     <release versionCode="120" versionName="v1.2" date="2018-03-04">
-
         <info>Some info</info>
         <improvement>Some improvement</improvement>
         <bugfix>Some bugfix</bugfix>
-
     </release>
-
-    <!-- complete release is meant for dogs flavour only -->
     <release versionCode="110" versionName="v1.1" date="2018-03-03" filter="dogs">
-
         <info>Some dogs info - filter only set in release tag</info>
         <improvement>Some dogs improvement - filter only set in release tag</improvement>
         <bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
-
     </release>
-
-    <!-- complete release is meant for cats flavour only -->
     <release versionCode="105" versionName="v1.05" date="2018-03-02" filter="cats">
-
         <info>Some cats info - filter only set in release tag</info>
         <improvement>Some cats improvement - filter only set in release tag</improvement>
         <bugfix>Some cats bugfix - filter only set in release tag</bugfix>
-
     </release>
-
     <release versionCode="100" versionName="v1.0" date="2018-03-01">
-
         <info filter="cats">New cats added - this info has filter text 'cats'</info>
         <info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
         <improvement filter="cats">Some cats improvement - this info has filter text 'cats'</improvement>
         <improvement filter="dogs">Some dogs improvement - this info has filter text 'dogs'</improvement>
         <bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
         <bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
-
     </release>
-
 </changelog>

@@ -2,22 +2,16 @@ package com.michaelflisar.changelog.internal;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogUtil;
 import com.michaelflisar.changelog.R;
-import com.michaelflisar.changelog.classes.IRecyclerViewItem;
-
-import java.util.List;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -35,7 +29,7 @@ public class ChangelogDialogFragment extends DialogFragment {
     }
 
     private ChangelogBuilder mBuilder;
-    private ParseAsyncTask mAsyncTask = null;
+    private ChangelogParserAsyncTask mAsyncTask = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +53,7 @@ public class ChangelogDialogFragment extends DialogFragment {
         RecyclerView rv = v.findViewById(R.id.rvChangelog);
         ChangelogRecyclerViewAdapter adapter = mBuilder.setupEmptyRecyclerView(rv);
 
-        mAsyncTask = new ParseAsyncTask(getContext(), pb, adapter, mBuilder);
+        mAsyncTask = new ChangelogParserAsyncTask(getContext(), pb, adapter, mBuilder);
         mAsyncTask.execute();
 
         builder.setView(v);
@@ -73,39 +67,5 @@ public class ChangelogDialogFragment extends DialogFragment {
             mAsyncTask.cancel(true);
         }
         super.onDestroy();
-    }
-
-    protected class ParseAsyncTask extends AsyncTask<Void, Void, List<IRecyclerViewItem>> {
-
-        private Context mContext;
-        private ProgressBar mPbLoading;
-        private ChangelogRecyclerViewAdapter mAdapter;
-        private ChangelogBuilder mBuilder;
-
-        public ParseAsyncTask(Context context, ProgressBar pbLoading, ChangelogRecyclerViewAdapter adapter, ChangelogBuilder builder) {
-            mContext = context;
-            mPbLoading = pbLoading;
-            mAdapter = adapter;
-            mBuilder = builder;
-        }
-
-        @Override
-        protected List<IRecyclerViewItem> doInBackground(Void... params) {
-            try {
-                if (mBuilder != null) {
-                    return mBuilder.getRecyclerViewItems(mContext);
-                }
-            } catch (Exception e) {
-                Log.e(Constants.DEBUG_TAG, "Exception occured while building changelog's RecyclerView items", e);
-            }
-            return null;
-        }
-
-        protected void onPostExecute(List<IRecyclerViewItem> result) {
-            if (result != null) {
-                mAdapter.setItems(result);
-            }
-            mPbLoading.setVisibility(View.GONE);
-        }
     }
 }

@@ -1,17 +1,12 @@
 package com.michaelflisar.changelog;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.View;
-import android.widget.TextView;
 
+import com.michaelflisar.changelog.classes.ChangelogRenderer;
 import com.michaelflisar.changelog.classes.IChangelogFilter;
-import com.michaelflisar.changelog.classes.Release;
-import com.michaelflisar.changelog.classes.Row;
-import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
+import com.michaelflisar.changelog.classes.IChangelogRenderer;
+import com.michaelflisar.changelog.internal.ParcelUtil;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -26,8 +21,9 @@ public class ChangelogSetup implements Parcelable {
     private int mMinVersionToShow;
     private boolean mUseBulletList;
     private IChangelogFilter mFilter;
+    private IChangelogRenderer mRenderer;
 
-    private int mRawFileId;
+    private int mXmlFileId;
 
     private int mLayoutHeaderId;
     private int mLayoutRowId;
@@ -41,8 +37,9 @@ public class ChangelogSetup implements Parcelable {
         mMinVersionToShow = -1; // show all
         mUseBulletList = false; // no bullet list
         mFilter = null;
+        mRenderer = new ChangelogRenderer();
         // layout id
-        mRawFileId = R.raw.changelog;
+        mXmlFileId = R.xml.changelog;
         // default ids
         mLayoutHeaderId = R.layout.changelog_header;
         mLayoutRowId = R.layout.changelog_row;
@@ -52,52 +49,21 @@ public class ChangelogSetup implements Parcelable {
         mLayoutItemTextId = R.id.tvText;
     }
 
-    public void bindHeader(Context context, ChangelogRecyclerViewAdapter.ViewHolderHeader viewHolder, Release release, ChangelogSetup setup) {
-        if (release != null) {
-            // 1) update version
-            String version = release.getVersionName() != null ? release.getVersionName() : "";
-            version = context.getString(R.string.changelog_version_title, version);
-            // default layout has a TextView
-            ((TextView) viewHolder.viewVersion).setText(version);
-
-            // 2) Update date
-            String date = release.getDate() != null ? release.getDate() : "";
-            // default layout has a TextView
-            ((TextView) viewHolder.viewDate).setText(date);
-            viewHolder.viewDate.setVisibility(date.length() > 0 ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    public void bindRow(Context context, ChangelogRecyclerViewAdapter.ViewHolderRow viewHolder, Row row, ChangelogSetup setup) {
-        if (row != null) {
-            // 1) update text
-            String text = row.getText(context);
-            ((TextView) viewHolder.viewText).setText(Html.fromHtml(text));
-            ((TextView) viewHolder.viewText).setMovementMethod(LinkMovementMethod.getInstance());
-
-            // 2) update bullet list item
-            viewHolder.viewBullet.setVisibility(setup.isUseBulletList() ? View.VISIBLE : View.GONE);
-        }
-    }
-
     // ------------------------
     // Parcelable
     // ------------------------
 
     ChangelogSetup(Parcel in) {
         mMinVersionToShow = in.readInt();
-        mUseBulletList = in.readInt() == 1;
-        String clazz = in.readString();
-        if (clazz != null) {
-            try {
-                mFilter = in.readParcelable(Class.forName(clazz).getClassLoader());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        mUseBulletList = ParcelUtil.readBoolean(in);
+        boolean hasFilter = ParcelUtil.readBoolean(in);
+        if (hasFilter) {
+            mFilter = ParcelUtil.readParcelableInterface(in);
         } else {
             mFilter = null;
         }
-        mRawFileId = in.readInt();
+        mRenderer = ParcelUtil.readParcelableInterface(in);
+        mXmlFileId = in.readInt();
         mLayoutHeaderId = in.readInt();
         mLayoutRowId = in.readInt();
         mLayoutItemBulletId = in.readInt();
@@ -114,12 +80,13 @@ public class ChangelogSetup implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mMinVersionToShow);
-        dest.writeInt(mUseBulletList ? 1 : 0);
+        ParcelUtil.writeBoolean(dest, mUseBulletList);
+        ParcelUtil.writeBoolean(dest, mFilter != null);
         if (mFilter != null) {
-            dest.writeString(mFilter.getClass().getName());
-            dest.writeParcelable(mFilter, 0);
+           ParcelUtil.writeParcelableInterface(dest, mFilter);
         }
-        dest.writeInt(mRawFileId);
+        ParcelUtil.writeParcelableInterface(dest, mRenderer);
+        dest.writeInt(mXmlFileId);
         dest.writeInt(mLayoutHeaderId);
         dest.writeInt(mLayoutRowId);
         dest.writeInt(mLayoutItemBulletId);
@@ -142,42 +109,79 @@ public class ChangelogSetup implements Parcelable {
     // Getter
     // -----------------
 
+    /**
+     * @return the min version to show (> 0 means filter is active)
+     */
     public final int getMinVersionToShow() {
         return mMinVersionToShow;
     }
 
+    /**
+     * @return true, if bullets should be shown before each changelog row, false otherwise
+     */
     public final boolean isUseBulletList() {
         return mUseBulletList;
     }
 
+    /**
+     * @return filter object that will do the filter logic or null
+     */
     public final IChangelogFilter getFilter() {
         return mFilter;
     }
 
-    public final int getRawFileId() {
-        return mRawFileId;
+    /**
+     * @return renderer object that will do the RecyclerView items rendering
+     */
+    public final IChangelogRenderer getRenderer() {
+        return mRenderer;
     }
 
+    /**
+     * @return the xml file identifier of the changelog file that should be used
+     */
+    public final int getXmlFileId() {
+        return mXmlFileId;
+    }
+
+    /**
+     * @return the layout id of the header layout
+     */
     public final int getLayoutHeaderId() {
         return mLayoutHeaderId;
     }
 
+    /**
+     * @return the layout id of the row layout
+     */
     public final int getLayoutRowId() {
         return mLayoutRowId;
     }
 
+    /**
+     * @return the layout id of the bullet view
+     */
     public final int getLayoutItemBulletId() {
         return mLayoutItemBulletId;
     }
 
+    /**
+     * @return the layout id of the version view
+     */
     public final int getLayoutItemVersionId() {
         return mLayoutItemVersionId;
     }
 
+    /**
+     * @return the layout id of the date view
+     */
     public final int getLayoutItemDateId() {
         return mLayoutItemDateId;
     }
 
+    /**
+     * @return the layout id of the text view
+     */
     public final int getLayoutItemTextId() {
         return mLayoutItemTextId;
     }
@@ -186,39 +190,124 @@ public class ChangelogSetup implements Parcelable {
     // Setter
     // -----------------
 
-    void setMinVersionToShow(int minVersionToShow) {
+    /**
+     * sets the minimum app version that should be shown, use value <= 0 to disable it
+     *
+     * @param minVersionToShow the minumum version that should be shown
+     * @return this
+     */
+    public ChangelogSetup withMinVersionToShow(int minVersionToShow) {
         mMinVersionToShow = minVersionToShow;
+        return this;
     }
 
-    void setUseBulletList(boolean useBulletList) {
+    /**
+     * enables or disables bullets before each changelog row
+     *
+     * @param useBulletList true to enable bullets, false otherwise
+     * @return this
+     */
+    public ChangelogSetup withUseBulletList(boolean useBulletList) {
         mUseBulletList = useBulletList;
+        return this;
     }
 
-    void setFilter(IChangelogFilter filter) {
+    /**
+     * provide a custom filter class or @{@link com.michaelflisar.changelog.classes.ChangelogFilter} to filter the changelog
+     *
+     * @param filter the filter object that will handle filtering if provided
+     * @return this
+     */
+    public ChangelogSetup withFilter(IChangelogFilter filter) {
         mFilter = filter;
+        return this;
     }
 
-    void setLayoutHeaderId(int layoutHeaderId) {
+    /**
+     * provide a custom renderer class or @{@link com.michaelflisar.changelog.classes.ChangelogRenderer} to filter the changelog
+     *
+     * @param renderer the renderer object that will handle rendering RecyclerView items
+     * @return this
+     */
+    public ChangelogSetup withRenderer(IChangelogRenderer renderer) {
+        mRenderer = renderer;
+        return this;
+    }
+
+    /**
+     * set's a custom changelog xml file id
+     *
+     * @param xmlFileIdentifier the changelog xml file id
+     * @return this
+     */
+    public ChangelogSetup withXmlFile(int xmlFileIdentifier) {
+        mXmlFileId = xmlFileIdentifier;
+        return this;
+    }
+
+    /**
+     * set's a custom layout header id
+     *
+     * @param layoutHeaderId the header id
+     * @return this
+     */
+    public ChangelogSetup withLayoutHeaderId(int layoutHeaderId) {
         mLayoutHeaderId = layoutHeaderId;
+        return this;
     }
 
-    void setLayoutRowId(int layoutRowId) {
+    /**
+     * set's a custom layout row id
+     *
+     * @param layoutRowId the row id
+     * @return this
+     */
+    public ChangelogSetup withLayoutRowId(int layoutRowId) {
         mLayoutRowId = layoutRowId;
+        return this;
     }
 
-    void setLayoutItemBulletId(int layoutItemBulletId) {
+    /**
+     * set's a custom bullet view id
+     *
+     * @param layoutItemBulletId the view id
+     * @return this
+     */
+    public ChangelogSetup withLayoutItemBulletId(int layoutItemBulletId) {
         mLayoutItemBulletId = layoutItemBulletId;
+        return this;
     }
 
-    void setLayoutItemVersionId(int layoutItemVersionId) {
+    /**
+     * set's a custom version view id
+     *
+     * @param layoutItemVersionId the view id
+     * @return this
+     */
+    public ChangelogSetup withLayoutItemVersionId(int layoutItemVersionId) {
         mLayoutItemVersionId = layoutItemVersionId;
+        return this;
     }
 
-    void setLayoutItemDateId(int layoutItemDateId) {
+    /**
+     * set's a custom date view id
+     *
+     * @param layoutItemDateId the view id
+     * @return this
+     */
+    public ChangelogSetup withLayoutItemDateId(int layoutItemDateId) {
         mLayoutItemDateId = layoutItemDateId;
+        return this;
     }
 
-    void setLayoutItemTextId(int layoutItemTextId) {
+    /**
+     * set's a custom text view id
+     *
+     * @param layoutItemTextId the view id
+     * @return this
+     */
+    public ChangelogSetup withLayoutItemTextId(int layoutItemTextId) {
         mLayoutItemTextId = layoutItemTextId;
+        return this;
     }
 }

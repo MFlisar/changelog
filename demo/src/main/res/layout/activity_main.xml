@@ -41,6 +41,13 @@
                             android:textStyle="bold"/>
 
                         <CheckBox
+                            android:id="@+id/cbShowAsDialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Show as dialog (disable to show as activity)"/>
+
+                        <CheckBox
                             android:id="@+id/cbBullets"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
