@@ -48,6 +48,7 @@ public class ChangelogBuilder implements Parcelable {
     private int mLayoutItemTextId;
 
     private boolean mManagedShowOnStart;
+    private boolean mAutoDeriveVersionName;
 
     public ChangelogBuilder() {
         initDefaults();
@@ -70,6 +71,7 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemTextId = R.id.tvText;
 
         mManagedShowOnStart = false;
+        mAutoDeriveVersionName = true;
     }
 
     // ------------------------
@@ -94,6 +96,7 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemDateId = in.readInt();
         mLayoutItemTextId = in.readInt();
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
+        mAutoDeriveVersionName = ParcelUtil.readBoolean(in);
     }
 
     @Override
@@ -118,6 +121,7 @@ public class ChangelogBuilder implements Parcelable {
         dest.writeInt(mLayoutItemDateId);
         dest.writeInt(mLayoutItemTextId);
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
+        ParcelUtil.writeBoolean(dest, mAutoDeriveVersionName);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -350,6 +354,20 @@ public class ChangelogBuilder implements Parcelable {
         return this;
     }
 
+    /**
+     * if enabled, version names will be derived from version number automatically like following:
+     *  100 => v1.0
+     *  153 => v1.53
+     *  ...
+     *
+     * @param autoDeriveVersionName true, if the version name should be derviced from version number if not present
+     * @return this
+     */
+    public ChangelogBuilder withAutoDeriveVersionName(boolean autoDeriveVersionName) {
+        mAutoDeriveVersionName = autoDeriveVersionName;
+        return this;
+    }
+
     // ------------------------
     // build method
     // ------------------------
@@ -362,7 +380,7 @@ public class ChangelogBuilder implements Parcelable {
      */
     public Changelog build(Context context) {
         try {
-            return ChangelogParserUtil.readChangeLogFile(context, mXmlFileId);
+            return ChangelogParserUtil.readChangeLogFile(context, mXmlFileId, mAutoDeriveVersionName);
         } catch (Exception e) {
             // crash the app, something is not workking and should be fixed
             throw new RuntimeException(e);

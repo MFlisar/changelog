@@ -19,7 +19,7 @@ import java.io.IOException;
 
 class ChangelogParserUtil {
 
-    static Changelog readChangeLogFile(Context context, int changelogXmlFileId) throws Exception {
+    static Changelog readChangeLogFile(Context context, int changelogXmlFileId, boolean autoDeriveVersionName) throws Exception {
         Changelog changelog = null;
 
         try {
@@ -30,7 +30,7 @@ class ChangelogParserUtil {
             changelog = new Changelog();
 
             // 2) Parse file into Changelog object
-            parseMainNode(parser, changelog);
+            parseMainNode(parser, changelog, autoDeriveVersionName);
         } catch (XmlPullParserException xpe) {
             Log.d(Constants.DEBUG_TAG, "XmlPullParseException while parsing changelog file", xpe);
             throw xpe;
@@ -42,7 +42,7 @@ class ChangelogParserUtil {
         return changelog;
     }
 
-    private static void parseMainNode(XmlPullParser parser, Changelog changelog) throws Exception {
+    private static void parseMainNode(XmlPullParser parser, Changelog changelog, boolean autoDeriveVersionName) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
@@ -53,14 +53,14 @@ class ChangelogParserUtil {
             if (parser.getEventType() == XmlPullParser.START_TAG) {
                 String tag = parser.getName();
                 if (tag.equals(Constants.XML_RELEASE_TAG)) {
-                    readReleaseNode(parser, changelog);
+                    readReleaseNode(parser, changelog, autoDeriveVersionName);
                 }
             }
             parser.next();
         }
     }
 
-    private static void readReleaseNode(XmlPullParser parser, Changelog changelog) throws Exception {
+    private static void readReleaseNode(XmlPullParser parser, Changelog changelog, boolean autoDeriveVersionName) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
@@ -82,6 +82,14 @@ class ChangelogParserUtil {
         }
         String date = parser.getAttributeValue(null, Constants.XML_ATTR_DATE);
         String filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER);
+
+        if (versionName == null) {
+            if (autoDeriveVersionName) {
+                versionName = ChangelogUtil.deriveVersionName(versionCode);
+            } else {
+                versionName = String.valueOf(versionCode);
+            }
+        }
 
         // 3) Create release element and add it to changelog object
         Release release = new Release(
