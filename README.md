@@ -1,6 +1,9 @@
 ### Changelog [![Release](https://jitpack.io/v/MFlisar/changelog.svg)](https://jitpack.io/#MFlisar/changelog)
 
 This is a simple (and lightweight) builder based changelog library that will show a changelog defined as xml in a `RecyclerView` or a `RecyclerView` dialog. It supports custom filters, to easily only show parts of your changelog (for example based on a build flavour or to only show new changelog entries on app start).
+
+![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
+![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
  
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
