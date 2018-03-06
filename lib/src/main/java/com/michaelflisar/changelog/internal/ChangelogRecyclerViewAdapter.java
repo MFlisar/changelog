@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.michaelflisar.changelog.ChangelogSetup;
+import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.classes.IRecyclerViewItem;
 import com.michaelflisar.changelog.classes.Release;
 import com.michaelflisar.changelog.classes.Row;
@@ -25,16 +25,16 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     private final Context mContext;
-    private final ChangelogSetup mSetup;
+    private final ChangelogBuilder mBuilder;
     private List<IRecyclerViewItem> mItems;
 
     // ----------------
     // Constructors
     // ----------------
 
-    public ChangelogRecyclerViewAdapter(Context context, ChangelogSetup setup, List<IRecyclerViewItem> items) {
+    public ChangelogRecyclerViewAdapter(Context context, ChangelogBuilder builder, List<IRecyclerViewItem> items) {
         mContext = context;
-        mSetup = setup;
+        mBuilder = builder;
         mItems = items;
     }
 
@@ -46,18 +46,18 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == Type.Header.ordinal()) {
-            return new ViewHolderHeader(LayoutInflater.from(parent.getContext()).inflate(mSetup.getLayoutHeaderId(), parent, false), mSetup);
+            return new ViewHolderHeader(LayoutInflater.from(parent.getContext()).inflate(mBuilder.getLayoutHeaderId(), parent, false), mBuilder);
         } else {
-            return new ViewHolderRow(LayoutInflater.from(parent.getContext()).inflate(mSetup.getLayoutRowId(), parent, false), mSetup);
+            return new ViewHolderRow(LayoutInflater.from(parent.getContext()).inflate(mBuilder.getLayoutRowId(), parent, false), mBuilder);
         }
     }
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (isHeader(position)) {
-            mSetup.getRenderer().bindHeader(mContext, (ViewHolderHeader) viewHolder, (Release) getItem(position), mSetup);
+            mBuilder.getRenderer().bindHeader(mContext, (ViewHolderHeader) viewHolder, (Release) getItem(position), mBuilder);
         } else {
-            mSetup.getRenderer().bindRow(mContext, (ViewHolderRow) viewHolder, (Row) getItem(position), mSetup);
+            mBuilder.getRenderer().bindRow(mContext, (ViewHolderRow) viewHolder, (Row) getItem(position), mBuilder);
         }
     }
 
@@ -87,10 +87,10 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         public View viewVersion;
         public View viewDate;
 
-        public ViewHolderHeader(View itemView, ChangelogSetup setup) {
+        public ViewHolderHeader(View itemView, ChangelogBuilder builder) {
             super(itemView);
-            viewVersion = itemView.findViewById(setup.getLayoutItemVersionId());
-            viewDate = itemView.findViewById(setup.getLayoutItemDateId());
+            viewVersion = itemView.findViewById(builder.getLayoutItemVersionId());
+            viewDate = itemView.findViewById(builder.getLayoutItemDateId());
         }
     }
 
@@ -98,10 +98,10 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         public View viewText;
         public View viewBullet;
 
-        public ViewHolderRow(View itemView, ChangelogSetup setup) {
+        public ViewHolderRow(View itemView, ChangelogBuilder builder) {
             super(itemView);
-            viewText = itemView.findViewById(setup.getLayoutItemTextId());
-            viewBullet = itemView.findViewById(setup.getLayoutItemBulletId());
+            viewText = itemView.findViewById(builder.getLayoutItemTextId());
+            viewBullet = itemView.findViewById(builder.getLayoutItemBulletId());
         }
     }
 }

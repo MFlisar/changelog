@@ -8,7 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.michaelflisar.changelog.ChangelogSetup;
+import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.R;
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 
@@ -22,7 +22,7 @@ public class ChangelogRenderer implements IChangelogRenderer {
     }
 
     @Override
-    public void bindHeader(Context context, ChangelogRecyclerViewAdapter.ViewHolderHeader viewHolder, Release release, ChangelogSetup setup) {
+    public void bindHeader(Context context, ChangelogRecyclerViewAdapter.ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
         if (release != null) {
             // 1) update version
             String version = release.getVersionName() != null ? release.getVersionName() : "";
@@ -39,7 +39,7 @@ public class ChangelogRenderer implements IChangelogRenderer {
     }
 
     @Override
-    public void bindRow(Context context, ChangelogRecyclerViewAdapter.ViewHolderRow viewHolder, Row row, ChangelogSetup setup) {
+    public void bindRow(Context context, ChangelogRecyclerViewAdapter.ViewHolderRow viewHolder, Row row, ChangelogBuilder builder) {
         if (row != null) {
             // 1) update text
             String text = row.getText(context);
@@ -47,7 +47,7 @@ public class ChangelogRenderer implements IChangelogRenderer {
             ((TextView) viewHolder.viewText).setMovementMethod(LinkMovementMethod.getInstance());
 
             // 2) update bullet list item
-            viewHolder.viewBullet.setVisibility(setup.isUseBulletList() ? View.VISIBLE : View.GONE);
+            viewHolder.viewBullet.setVisibility(builder.isUseBulletList() ? View.VISIBLE : View.GONE);
         }
     }
 

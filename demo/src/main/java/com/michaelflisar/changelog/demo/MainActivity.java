@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
-import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
 
@@ -65,16 +64,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Changelog
-        ChangelogSetup setup = new ChangelogSetup()
+        ChangelogBuilder builder = new ChangelogBuilder()
                 .withUseBulletList(bulletList);
         if (showVersion11OrHigherOnly) {
-            setup.withMinVersionToShow(110);
+            builder.withMinVersionToShow(110);
         }
         if (stringToFilter != null) {
             ChangelogFilter changelogFilter = new ChangelogFilter(filterMode, stringToFilter, true, rowsShouldInheritFilterTextFromReleaseTag);
-            setup.withFilter(changelogFilter);
+            builder.withFilter(changelogFilter);
         }
-        ChangelogBuilder builder = new ChangelogBuilder(setup);
         if (showAsDialog) {
             builder.buildAndShowDialog(this, false);
         } else {
