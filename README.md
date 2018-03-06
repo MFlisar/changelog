@@ -77,6 +77,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 ### TODO
 
 Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:
+* using custom layouts - is prepared actually and you can even provide a custom renderer to the builder, but this is untested (therefore it's not documented above)
 * support online source for xml - https://github.com/MFlisar/changelog/issues/1
 
 ### Credits
