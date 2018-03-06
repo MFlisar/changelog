@@ -2,6 +2,12 @@
 
 This is a simple (and lightweight) builder based changelog library that will show a changelog defined as xml in a `RecyclerView` or a `RecyclerView` dialog. It supports custom filters, to easily only show parts of your changelog (for example based on a build flavour or to only show new changelog entries on app start).
 
+Features:
+* filtering (based on flavour for example)
+* filtering by min version
+* optionally show dialog/activity only once or if new changelogs are available which the user has not seen yet
+* optional bullet lists
+
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
  
