@@ -60,6 +60,12 @@
                             android:layout_height="wrap_content"
                             android:text="Only show changelog for version >= 1.1"/>
 
+                        <CheckBox
+                            android:id="@+id/cbManaged"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Only show if new data is available (will save the last shown app version in preferences and checks them)"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

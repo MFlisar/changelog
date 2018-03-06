@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.michaelflisar.changelog.classes.ChangelogRenderer;
 import com.michaelflisar.changelog.classes.IChangelogFilter;
@@ -14,7 +15,9 @@ import com.michaelflisar.changelog.classes.IChangelogRenderer;
 import com.michaelflisar.changelog.classes.IRecyclerViewItem;
 import com.michaelflisar.changelog.internal.ChangelogActivity;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
+import com.michaelflisar.changelog.internal.ChangelogPreferenceUtil;
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
+import com.michaelflisar.changelog.internal.Constants;
 import com.michaelflisar.changelog.internal.ParcelUtil;
 
 import java.util.ArrayList;
@@ -44,6 +47,8 @@ public class ChangelogBuilder implements Parcelable {
     private int mLayoutItemDateId;
     private int mLayoutItemTextId;
 
+    private boolean mManagedShowOnStart;
+
     public ChangelogBuilder() {
         initDefaults();
     }
@@ -63,6 +68,8 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemVersionId = R.id.tvHeaderVersion;
         mLayoutItemDateId = R.id.tvHeaderDate;
         mLayoutItemTextId = R.id.tvText;
+
+        mManagedShowOnStart = false;
     }
 
     // ------------------------
@@ -86,6 +93,7 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemVersionId = in.readInt();
         mLayoutItemDateId = in.readInt();
         mLayoutItemTextId = in.readInt();
+        mManagedShowOnStart = ParcelUtil.readBoolean(in);
     }
 
     @Override
@@ -109,6 +117,7 @@ public class ChangelogBuilder implements Parcelable {
         dest.writeInt(mLayoutItemVersionId);
         dest.writeInt(mLayoutItemDateId);
         dest.writeInt(mLayoutItemTextId);
+        ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -327,6 +336,20 @@ public class ChangelogBuilder implements Parcelable {
         return this;
     }
 
+    /**
+     * if enabled, changelog library will save a boolena flag in a preference file that saves the last shown changelog version
+     * and will only show a dialog / activity, if new changelogs are found and won't do anything otherwise
+     *
+     * ATTENTION: this will override the min version filter as it will calculate this version automatically!
+     *
+     * @param managedShowOnStart true, if changelog library should show only not already shown chnagelogs, false otherwise
+     * @return this
+     */
+    public ChangelogBuilder withManagedShowOnStart(boolean managedShowOnStart) {
+        mManagedShowOnStart = managedShowOnStart;
+        return this;
+    }
+
     // ------------------------
     // build method
     // ------------------------
@@ -368,9 +391,19 @@ public class ChangelogBuilder implements Parcelable {
      * @return the DialogFragment
      */
     public ChangelogDialogFragment buildAndShowDialog(AppCompatActivity activity, boolean darkTheme) {
-        ChangelogDialogFragment dlg = ChangelogDialogFragment.create(this, darkTheme);
-        dlg.show(activity.getSupportFragmentManager(), ChangelogDialogFragment.class.getName());
-        return dlg;
+        Integer minVersion = null;
+        if (!mManagedShowOnStart || (minVersion = ChangelogPreferenceUtil.shouldShowChangelogOnStart(activity)) != null) {
+            if (minVersion != null) {
+                withMinVersionToShow(minVersion);
+            }
+            ChangelogDialogFragment dlg = ChangelogDialogFragment.create(this, darkTheme);
+            dlg.show(activity.getSupportFragmentManager(), ChangelogDialogFragment.class.getName());
+            ChangelogPreferenceUtil.updateAlreadyShownChangelogVersion(activity);
+            return dlg;
+        } else {
+            Log.i(Constants.DEBUG_TAG, "Showing changelog dialog skipped");
+            return null;
+        }
     }
 
     /**
@@ -391,9 +424,17 @@ public class ChangelogBuilder implements Parcelable {
      * @param theme   theme id or null for light default theme
      */
     public void buildAndStartActivity(Context context, Integer theme) {
-        Intent intent = ChangelogActivity.createIntent(context, this, theme);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        Integer minVersion = null;
+        if (!mManagedShowOnStart || (minVersion = ChangelogPreferenceUtil.shouldShowChangelogOnStart(context)) != null) {
+            if (minVersion != null) {
+                withMinVersionToShow(minVersion);
+            }
+            Intent intent = ChangelogActivity.createIntent(context, this, theme);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } else {
+            Log.i(Constants.DEBUG_TAG, "Showing changelog activity skipped");
+        }
     }
 
     // ------------------------
@@ -413,4 +454,6 @@ public class ChangelogBuilder implements Parcelable {
         recyclerView.setAdapter(adapter);
         return adapter;
     }
+
+
 }

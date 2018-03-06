@@ -34,6 +34,22 @@ public class ChangelogUtil {
     }
 
     /**
+     * returns the app version name
+     *
+     * @param context context to use to retrieve the app version code
+     * @return the app version code
+     */
+    public static int getAppVersionCode(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /**
      * @param minimumVersionToShow if >0, filters release notes that are meant for version <= this number
      * @param filter               a custom filter
      * @param rows                 list of all items of the changelog that needs to be filtered

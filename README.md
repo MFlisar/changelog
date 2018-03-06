@@ -33,6 +33,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withUseBulletList(bulletList) // true if you want to show bullets before each changelog row, false otherwise
 	.withMinVersionToShow(110)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
 	.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
+	.withManagedShowOnStart(true)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 

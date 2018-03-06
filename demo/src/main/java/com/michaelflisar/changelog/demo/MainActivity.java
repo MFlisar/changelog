@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         boolean bulletList = mBinding.cbBullets.isChecked();
         boolean showVersion11OrHigherOnly = mBinding.cbFilterVersion11OrHigher.isChecked();
         boolean rowsShouldInheritFilterTextFromReleaseTag = mBinding.cbInheritFilter.isChecked();
+        boolean managed = mBinding.cbManaged.isChecked();
 
         String stringToFilter = null;
         int rgCustomFilterCheckedItemId = mBinding.rgCustomFilter.getCheckedRadioButtonId();
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Changelog
         ChangelogBuilder builder = new ChangelogBuilder()
-                .withUseBulletList(bulletList);
+                .withUseBulletList(bulletList)
+                .withManagedShowOnStart(managed);
         if (showVersion11OrHigherOnly) {
             builder.withMinVersionToShow(110);
         }
