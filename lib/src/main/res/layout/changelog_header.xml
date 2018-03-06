@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvHeaderVersion"
+        style="@style/ChangelogHeaderVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="VERSION 1.0"/>
+
+    <TextView
+        android:id="@+id/tvHeaderDate"
+        style="@style/ChangelogHeaderDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="right|end"
+        tools:text="01.01.2000"/>
+
+</LinearLayout>

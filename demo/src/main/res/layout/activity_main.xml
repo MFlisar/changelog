@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/llSub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="General settings"
+                            android:textStyle="bold"/>
+
+                        <CheckBox
+                            android:id="@+id/cbBullets"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Enable bullet list"/>
+
+                        <CheckBox
+                            android:id="@+id/cbFilterVersion11OrHigher"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Only show changelog for version >= 1.1"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="Custom filter"
+                            android:textStyle="bold"/>
+
+                        <RadioGroup
+                            android:id="@+id/rgCustomFilter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:checkedButton="@+id/rbAll">
+
+                            <RadioButton
+                                android:id="@+id/rbAll"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Disabled"/>
+
+                            <RadioButton
+                                android:id="@+id/rbCats"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Cats flavour only"/>
+
+                            <RadioButton
+                                android:id="@+id/rbDogs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Dogs flavour only"/>
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvCustomFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="General custom filter settings"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/cbInheritFilter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="XML rows should inherit filter text from XML release tag"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+                                android:text="Custom filter mode"
+                                android:textStyle="bold"/>
+
+                            <RadioGroup
+                                android:id="@+id/rgCustomFilterMode"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:checkedButton="@+id/rbExact">
+
+                                <RadioButton
+                                    android:id="@+id/rbExact"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Exact"/>
+
+                                <RadioButton
+                                    android:id="@+id/rbContains"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Contains"/>
+
+                                <RadioButton
+                                    android:id="@+id/rbNotContains"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Does not contain"/>
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btShowChangelog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show changelog"/>
+
+    </LinearLayout>
+</layout>

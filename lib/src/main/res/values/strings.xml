@@ -1,0 +1,11 @@
+<resources>
+
+    <string name ="changelog_bullet" translatable="false">\u2022\u00A0</string><!-- bullet + space -->
+
+    <string name ="changelog_dialog_title">Changelog %1$s</string>
+    <string name ="changelog_dialog_button">Ok</string>
+    <string name ="changelog_version_title">%1$s</string>
+    <string name ="changelog_bug_prefix">[font color="#FF0000"][b]Bug: [/b][/font]</string>
+    <string name ="changelog_bug_improvement">[font color="#009933"][b]New: [/b][/font]</string>
+
+</resources>

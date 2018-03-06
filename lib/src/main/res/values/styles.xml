@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ChangelogDialogDarkTheme" parent="@style/Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
+    <style name="ChangelogDialogLightTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
+    <style name="ChangelogHeader">
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="ChangelogHeaderVersion" parent="ChangelogHeader">
+    </style>
+
+    <style name="ChangelogHeaderDate" parent="ChangelogHeader">
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+    </style>
+
+    <style name="ChangelogRow">
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+    </style>
+
+</resources>
