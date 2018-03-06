@@ -35,32 +35,34 @@ ChangelogBuilder builder = new ChangelogBuilder()
 
 ### Example `changelog.xml`
 
-	<changelog>
-        
-        <!-- simple example - no filter -->
-        <release versionCode="120" versionName="v1.2" date="2018-03-04">
-            <info>Some info</info>
-            <improvement>Some improvement</improvement>
-            <bugfix>Some bugfix</bugfix>
-        </release>
-        
-        <!-- example with custom filter in release tag -->
-        <release versionCode="110" versionName="v1.1" date="2018-03-03" filter="dogs">
-            <info>Some dogs info - filter only set in release tag</info>
-            <improvement>Some dogs improvement - filter only set in release tag</improvement>
-            <bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
-        </release>
-        
-        <!-- example with filters in rows -->
-        <release versionCode="100" versionName="v1.0" date="2018-03-01">
-            <info filter="cats">New cats added - this info has filter text 'cats'</info>
-            <info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
-            <improvement filter="cats">Some cats improvement - this info has filter text 'cats'</improvement>
-            <improvement filter="dogs">Some dogs improvement - this info has filter text 'dogs'</improvement>
-            <bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
-            <bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
-        </release>
-    </changelog>
+```xml
+<changelog>
+	
+	<!-- simple example - no filter -->
+	<release versionCode="120" versionName="v1.2" date="2018-03-04">
+		<info>Some info</info>
+		<improvement>Some improvement</improvement>
+		<bugfix>Some bugfix</bugfix>
+	</release>
+	
+	<!-- example with custom filter in release tag -->
+	<release versionCode="110" versionName="v1.1" date="2018-03-03" filter="dogs">
+		<info>Some dogs info - filter only set in release tag</info>
+		<improvement>Some dogs improvement - filter only set in release tag</improvement>
+		<bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
+	</release>
+	
+	<!-- example with filters in rows -->
+	<release versionCode="100" versionName="v1.0" date="2018-03-01">
+		<info filter="cats">New cats added - this info has filter text 'cats'</info>
+		<info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
+		<improvement filter="cats">Some cats improvement - this info has filter text 'cats'</improvement>
+		<improvement filter="dogs">Some dogs improvement - this info has filter text 'dogs'</improvement>
+		<bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
+		<bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
+	</release>
+</changelog>
+```
 
 ### Credits
 
