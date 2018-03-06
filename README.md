@@ -7,6 +7,7 @@ Features:
 * filtering by min version
 * optionally show dialog/activity only once or if new changelogs are available which the user has not seen yet
 * optional bullet lists
+* supports custom and automatic version names (e.g. version 100 will be formatted as "v1.00" if desired)
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
