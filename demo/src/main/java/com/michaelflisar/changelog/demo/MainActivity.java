@@ -1,14 +1,20 @@
 package com.michaelflisar.changelog.demo;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
+import com.michaelflisar.changelog.classes.IChangelogRenderer;
+import com.michaelflisar.changelog.classes.Release;
+import com.michaelflisar.changelog.classes.Row;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
+import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +73,29 @@ public class MainActivity extends AppCompatActivity {
         // Changelog
         ChangelogBuilder builder = new ChangelogBuilder()
                 .withUseBulletList(bulletList)
-                .withManagedShowOnStart(managed);
+                .withManagedShowOnStart(managed)
+                .withLayoutHeaderId()
+                .withRenderer(new IChangelogRenderer() {
+                    @Override
+                    public void bindHeader(Context context, ChangelogRecyclerViewAdapter.ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
+
+                    }
+
+                    @Override
+                    public void bindRow(Context context, ChangelogRecyclerViewAdapter.ViewHolderRow viewHolder, Row row, ChangelogBuilder builder) {
+
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
+                    }
+                });
         if (showVersion11OrHigherOnly) {
             builder.withMinVersionToShow(110);
         }
