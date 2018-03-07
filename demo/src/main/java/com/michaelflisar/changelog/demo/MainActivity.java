@@ -1,20 +1,14 @@
 package com.michaelflisar.changelog.demo;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
-import com.michaelflisar.changelog.classes.IChangelogRenderer;
-import com.michaelflisar.changelog.classes.Release;
-import com.michaelflisar.changelog.classes.Row;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
-import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         boolean showVersion11OrHigherOnly = mBinding.cbFilterVersion11OrHigher.isChecked();
         boolean rowsShouldInheritFilterTextFromReleaseTag = mBinding.cbInheritFilter.isChecked();
         boolean managed = mBinding.cbManaged.isChecked();
+        boolean useCustomRenderer = mBinding.cbCustomRenderer.isChecked();
 
         String stringToFilter = null;
         int rgCustomFilterCheckedItemId = mBinding.rgCustomFilter.getCheckedRadioButtonId();
@@ -80,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         if (stringToFilter != null) {
             ChangelogFilter changelogFilter = new ChangelogFilter(filterMode, stringToFilter, true, rowsShouldInheritFilterTextFromReleaseTag);
             builder.withFilter(changelogFilter);
+        }
+        if (useCustomRenderer) {
+            builder.withRenderer(new ExampleCustomRenderer());
         }
         if (showAsDialog) {
             builder.buildAndShowDialog(this, false);

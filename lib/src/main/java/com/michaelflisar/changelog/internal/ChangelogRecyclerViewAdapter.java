@@ -27,6 +27,7 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     private final Context mContext;
     private final ChangelogBuilder mBuilder;
     private List<IRecyclerViewItem> mItems;
+    private LayoutInflater mInflater;
 
     // ----------------
     // Constructors
@@ -36,6 +37,7 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         mContext = context;
         mBuilder = builder;
         mItems = items;
+        mInflater = LayoutInflater.from(context);
     }
 
     public void setItems(List<IRecyclerViewItem> items) {
@@ -46,18 +48,18 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == Type.Header.ordinal()) {
-            return new ViewHolderHeader(LayoutInflater.from(parent.getContext()).inflate(mBuilder.getLayoutHeaderId(), parent, false), mBuilder);
+            return mBuilder.getRenderer().createHeaderViewHolder(mInflater, parent, mBuilder);
         } else {
-            return new ViewHolderRow(LayoutInflater.from(parent.getContext()).inflate(mBuilder.getLayoutRowId(), parent, false), mBuilder);
+            return mBuilder.getRenderer().createRowViewHolder(mInflater, parent, mBuilder);
         }
     }
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (isHeader(position)) {
-            mBuilder.getRenderer().bindHeader(mContext, (ViewHolderHeader) viewHolder, (Release) getItem(position), mBuilder);
+            mBuilder.getRenderer().bindHeader(mContext, viewHolder, (Release) getItem(position), mBuilder);
         } else {
-            mBuilder.getRenderer().bindRow(mContext, (ViewHolderRow) viewHolder, (Row) getItem(position), mBuilder);
+            mBuilder.getRenderer().bindRow(mContext, viewHolder, (Row) getItem(position), mBuilder);
         }
     }
 
@@ -77,31 +79,5 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public final int getItemCount() {
         return mItems.size();
-    }
-
-    // -------------------------------------------------------------
-    // ViewHolder
-    // -------------------------------------------------------------
-
-    public static class ViewHolderHeader extends RecyclerView.ViewHolder {
-        public View viewVersion;
-        public View viewDate;
-
-        public ViewHolderHeader(View itemView, ChangelogBuilder builder) {
-            super(itemView);
-            viewVersion = itemView.findViewById(builder.getLayoutItemVersionId());
-            viewDate = itemView.findViewById(builder.getLayoutItemDateId());
-        }
-    }
-
-    public static class ViewHolderRow extends RecyclerView.ViewHolder {
-        public View viewText;
-        public View viewBullet;
-
-        public ViewHolderRow(View itemView, ChangelogBuilder builder) {
-            super(itemView);
-            viewText = itemView.findViewById(builder.getLayoutItemTextId());
-            viewBullet = itemView.findViewById(builder.getLayoutItemBulletId());
-        }
     }
 }

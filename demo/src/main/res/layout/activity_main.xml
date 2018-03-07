@@ -66,6 +66,12 @@
                             android:layout_height="wrap_content"
                             android:text="Only show if new data is available (will save the last shown app version in preferences and checks them)"/>
 
+                        <CheckBox
+                            android:id="@+id/cbCustomRenderer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Use custom layotu created by a custom item renderer"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

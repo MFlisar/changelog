@@ -23,7 +23,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:0.6'
+    compile 'com.github.MFlisar:changelog:0.7'
 }
 ```
 
@@ -84,11 +84,10 @@ ChangelogBuilder builder = new ChangelogBuilder()
 
 ### Advanced usage
 
-#### Using custom layouts - simply provide custom layout ids, item ids and a custom renderer (very simply interface) 
+#### Using custom layouts - simply provide custom a custom renderer (very simply interface), derive it from the default `ChangelogRenderer` to only adjust small things.
 
 ```java
 ChangelogBuilder builder = new ChangelogBuilder()
-	.withLayout<...>Id(id) // provide custom layout ids and item ids
 	.withRenderer(...); // provide a custom item renderer
 ```	
 
@@ -98,6 +97,7 @@ Have a look at the default renderer here: [ChangelogRenderer.java](https://githu
 
 Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:	
 * support online source for xml - https://github.com/MFlisar/changelog/issues/1
+* add some setup features to the default `ChangelogRenderer` (colors, text size, ...)
 
 ### Credits
 

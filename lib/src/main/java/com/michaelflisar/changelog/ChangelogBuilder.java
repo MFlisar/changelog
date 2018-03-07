@@ -43,13 +43,6 @@ public class ChangelogBuilder implements Parcelable {
 
     private int mXmlFileId;
 
-    private int mLayoutHeaderId;
-    private int mLayoutRowId;
-    private int mLayoutItemBulletId;
-    private int mLayoutItemVersionId;
-    private int mLayoutItemDateId;
-    private int mLayoutItemTextId;
-
     private boolean mManagedShowOnStart;
 
     public ChangelogBuilder() {
@@ -66,13 +59,6 @@ public class ChangelogBuilder implements Parcelable {
         mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
         // layout id
         mXmlFileId = R.xml.changelog;
-        // default ids
-        mLayoutHeaderId = R.layout.changelog_header;
-        mLayoutRowId = R.layout.changelog_row;
-        mLayoutItemBulletId = R.id.tvBullet;
-        mLayoutItemVersionId = R.id.tvHeaderVersion;
-        mLayoutItemDateId = R.id.tvHeaderDate;
-        mLayoutItemTextId = R.id.tvText;
         // manage versions to show in preferences
         mManagedShowOnStart = false;
     }
@@ -93,12 +79,6 @@ public class ChangelogBuilder implements Parcelable {
         mRenderer = ParcelUtil.readParcelableInterface(in);
         mAutoVersionNameFormatter = ParcelUtil.readParcelableInterface(in);
         mXmlFileId = in.readInt();
-        mLayoutHeaderId = in.readInt();
-        mLayoutRowId = in.readInt();
-        mLayoutItemBulletId = in.readInt();
-        mLayoutItemVersionId = in.readInt();
-        mLayoutItemDateId = in.readInt();
-        mLayoutItemTextId = in.readInt();
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
     }
 
@@ -118,12 +98,6 @@ public class ChangelogBuilder implements Parcelable {
         ParcelUtil.writeParcelableInterface(dest, mRenderer);
         ParcelUtil.writeParcelableInterface(dest, mAutoVersionNameFormatter);
         dest.writeInt(mXmlFileId);
-        dest.writeInt(mLayoutHeaderId);
-        dest.writeInt(mLayoutRowId);
-        dest.writeInt(mLayoutItemBulletId);
-        dest.writeInt(mLayoutItemVersionId);
-        dest.writeInt(mLayoutItemDateId);
-        dest.writeInt(mLayoutItemTextId);
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
     }
 
@@ -181,48 +155,6 @@ public class ChangelogBuilder implements Parcelable {
      */
     public final int getXmlFileId() {
         return mXmlFileId;
-    }
-
-    /**
-     * @return the layout id of the header layout
-     */
-    public final int getLayoutHeaderId() {
-        return mLayoutHeaderId;
-    }
-
-    /**
-     * @return the layout id of the row layout
-     */
-    public final int getLayoutRowId() {
-        return mLayoutRowId;
-    }
-
-    /**
-     * @return the layout id of the bullet view
-     */
-    public final int getLayoutItemBulletId() {
-        return mLayoutItemBulletId;
-    }
-
-    /**
-     * @return the layout id of the version view
-     */
-    public final int getLayoutItemVersionId() {
-        return mLayoutItemVersionId;
-    }
-
-    /**
-     * @return the layout id of the date view
-     */
-    public final int getLayoutItemDateId() {
-        return mLayoutItemDateId;
-    }
-
-    /**
-     * @return the layout id of the text view
-     */
-    public final int getLayoutItemTextId() {
-        return mLayoutItemTextId;
     }
 
     // -----------------
@@ -293,72 +225,6 @@ public class ChangelogBuilder implements Parcelable {
      */
     public ChangelogBuilder withXmlFile(int xmlFileIdentifier) {
         mXmlFileId = xmlFileIdentifier;
-        return this;
-    }
-
-    /**
-     * set's a custom layout header id
-     *
-     * @param layoutHeaderId the header id
-     * @return this
-     */
-    public ChangelogBuilder withLayoutHeaderId(int layoutHeaderId) {
-        mLayoutHeaderId = layoutHeaderId;
-        return this;
-    }
-
-    /**
-     * set's a custom layout row id
-     *
-     * @param layoutRowId the row id
-     * @return this
-     */
-    public ChangelogBuilder withLayoutRowId(int layoutRowId) {
-        mLayoutRowId = layoutRowId;
-        return this;
-    }
-
-    /**
-     * set's a custom bullet view id
-     *
-     * @param layoutItemBulletId the view id
-     * @return this
-     */
-    public ChangelogBuilder withLayoutItemBulletId(int layoutItemBulletId) {
-        mLayoutItemBulletId = layoutItemBulletId;
-        return this;
-    }
-
-    /**
-     * set's a custom version view id
-     *
-     * @param layoutItemVersionId the view id
-     * @return this
-     */
-    public ChangelogBuilder withLayoutItemVersionId(int layoutItemVersionId) {
-        mLayoutItemVersionId = layoutItemVersionId;
-        return this;
-    }
-
-    /**
-     * set's a custom date view id
-     *
-     * @param layoutItemDateId the view id
-     * @return this
-     */
-    public ChangelogBuilder withLayoutItemDateId(int layoutItemDateId) {
-        mLayoutItemDateId = layoutItemDateId;
-        return this;
-    }
-
-    /**
-     * set's a custom text view id
-     *
-     * @param layoutItemTextId the view id
-     * @return this
-     */
-    public ChangelogBuilder withLayoutItemTextId(int layoutItemTextId) {
-        mLayoutItemTextId = layoutItemTextId;
         return this;
     }
 
