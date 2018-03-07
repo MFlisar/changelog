@@ -3,6 +3,7 @@ package com.michaelflisar.changelog;
 import android.content.Context;
 import android.util.Log;
 
+import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
 import com.michaelflisar.changelog.classes.Release;
 import com.michaelflisar.changelog.classes.Row;
 import com.michaelflisar.changelog.internal.ChangelogException;
@@ -19,7 +20,7 @@ import java.io.IOException;
 
 class ChangelogParserUtil {
 
-    static Changelog readChangeLogFile(Context context, int changelogXmlFileId, boolean autoDeriveVersionName) throws Exception {
+    static Changelog readChangeLogFile(Context context, int changelogXmlFileId, IAutoVersionNameFormatter autoVersionNameFormatter) throws Exception {
         Changelog changelog = null;
 
         try {
@@ -30,7 +31,7 @@ class ChangelogParserUtil {
             changelog = new Changelog();
 
             // 2) Parse file into Changelog object
-            parseMainNode(parser, changelog, autoDeriveVersionName);
+            parseMainNode(parser, changelog, autoVersionNameFormatter);
         } catch (XmlPullParserException xpe) {
             Log.d(Constants.DEBUG_TAG, "XmlPullParseException while parsing changelog file", xpe);
             throw xpe;
@@ -42,7 +43,7 @@ class ChangelogParserUtil {
         return changelog;
     }
 
-    private static void parseMainNode(XmlPullParser parser, Changelog changelog, boolean autoDeriveVersionName) throws Exception {
+    private static void parseMainNode(XmlPullParser parser, Changelog changelog, IAutoVersionNameFormatter autoVersionNameFormatter) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
@@ -53,14 +54,14 @@ class ChangelogParserUtil {
             if (parser.getEventType() == XmlPullParser.START_TAG) {
                 String tag = parser.getName();
                 if (tag.equals(Constants.XML_RELEASE_TAG)) {
-                    readReleaseNode(parser, changelog, autoDeriveVersionName);
+                    readReleaseNode(parser, changelog, autoVersionNameFormatter);
                 }
             }
             parser.next();
         }
     }
 
-    private static void readReleaseNode(XmlPullParser parser, Changelog changelog, boolean autoDeriveVersionName) throws Exception {
+    private static void readReleaseNode(XmlPullParser parser, Changelog changelog, IAutoVersionNameFormatter autoVersionNameFormatter) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
@@ -84,11 +85,7 @@ class ChangelogParserUtil {
         String filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER);
 
         if (versionName == null) {
-            if (autoDeriveVersionName) {
-                versionName = ChangelogUtil.deriveVersionName(versionCode);
-            } else {
-                versionName = String.valueOf(versionCode);
-            }
+            versionName = autoVersionNameFormatter.deriveVersionName(versionCode);
         }
 
         // 3) Create release element and add it to changelog object

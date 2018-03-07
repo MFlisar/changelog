@@ -95,16 +95,4 @@ public class ChangelogUtil {
         }
         return items;
     }
-
-    public static String deriveVersionName(int versionCode) {
-        // should not happen but we must handle this
-        if (versionCode < 0) {
-            return "v" + versionCode;
-        }
-
-        int versionMain = (int)Math.floor((float)versionCode / 100f);
-        int versionDetails = versionCode - versionMain * 100;
-
-        return "v" + versionMain + "." + String.format("%02d", versionDetails);
-    }
 }

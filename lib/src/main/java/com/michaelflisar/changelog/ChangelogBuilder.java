@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.michaelflisar.changelog.classes.ChangelogRenderer;
+import com.michaelflisar.changelog.classes.DefaultAutoVersionNameFormatter;
+import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
 import com.michaelflisar.changelog.classes.IChangelogFilter;
 import com.michaelflisar.changelog.classes.IChangelogRenderer;
 import com.michaelflisar.changelog.classes.IRecyclerViewItem;
@@ -37,6 +39,7 @@ public class ChangelogBuilder implements Parcelable {
     private boolean mUseBulletList;
     private IChangelogFilter mFilter;
     private IChangelogRenderer mRenderer;
+    private IAutoVersionNameFormatter mAutoVersionNameFormatter;
 
     private int mXmlFileId;
 
@@ -48,7 +51,6 @@ public class ChangelogBuilder implements Parcelable {
     private int mLayoutItemTextId;
 
     private boolean mManagedShowOnStart;
-    private boolean mAutoDeriveVersionName;
 
     public ChangelogBuilder() {
         initDefaults();
@@ -60,6 +62,7 @@ public class ChangelogBuilder implements Parcelable {
         mUseBulletList = false; // no bullet list
         mFilter = null;
         mRenderer = new ChangelogRenderer();
+        mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
         // layout id
         mXmlFileId = R.xml.changelog;
         // default ids
@@ -71,7 +74,6 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemTextId = R.id.tvText;
 
         mManagedShowOnStart = false;
-        mAutoDeriveVersionName = true;
     }
 
     // ------------------------
@@ -88,6 +90,7 @@ public class ChangelogBuilder implements Parcelable {
             mFilter = null;
         }
         mRenderer = ParcelUtil.readParcelableInterface(in);
+        mAutoVersionNameFormatter = ParcelUtil.readParcelableInterface(in);
         mXmlFileId = in.readInt();
         mLayoutHeaderId = in.readInt();
         mLayoutRowId = in.readInt();
@@ -96,7 +99,6 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemDateId = in.readInt();
         mLayoutItemTextId = in.readInt();
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
-        mAutoDeriveVersionName = ParcelUtil.readBoolean(in);
     }
 
     @Override
@@ -113,6 +115,7 @@ public class ChangelogBuilder implements Parcelable {
             ParcelUtil.writeParcelableInterface(dest, mFilter);
         }
         ParcelUtil.writeParcelableInterface(dest, mRenderer);
+        ParcelUtil.writeParcelableInterface(dest, mAutoVersionNameFormatter);
         dest.writeInt(mXmlFileId);
         dest.writeInt(mLayoutHeaderId);
         dest.writeInt(mLayoutRowId);
@@ -121,7 +124,6 @@ public class ChangelogBuilder implements Parcelable {
         dest.writeInt(mLayoutItemDateId);
         dest.writeInt(mLayoutItemTextId);
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
-        ParcelUtil.writeBoolean(dest, mAutoDeriveVersionName);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -164,6 +166,13 @@ public class ChangelogBuilder implements Parcelable {
      */
     public final IChangelogRenderer getRenderer() {
         return mRenderer;
+    }
+
+    /**
+     * @return IAutoVersionNameFormatter object that will do automaitc version name formatting derived from version number
+     */
+    public final IAutoVersionNameFormatter getAutoDeriveVersionName() {
+        return mAutoVersionNameFormatter;
     }
 
     /**
@@ -264,6 +273,18 @@ public class ChangelogBuilder implements Parcelable {
     }
 
     /**
+     * provide a custom auto version name formatter class or @{@link com.michaelflisar.changelog.classes.IAutoVersionNameFormatter}
+     * to format version codes as desired if they are not provided in the xml
+     *
+     * @param versionNameFormatter the formatter object that will handle deriving version name from version number
+     * @return this
+     */
+    public ChangelogBuilder withVersionNameFormatter(IAutoVersionNameFormatter versionNameFormatter) {
+        mAutoVersionNameFormatter = versionNameFormatter;
+        return this;
+    }
+
+    /**
      * set's a custom changelog xml file id
      *
      * @param xmlFileIdentifier the changelog xml file id
@@ -354,20 +375,6 @@ public class ChangelogBuilder implements Parcelable {
         return this;
     }
 
-    /**
-     * if enabled, version names will be derived from version number automatically like following:
-     *  100 => v1.0
-     *  153 => v1.53
-     *  ...
-     *
-     * @param autoDeriveVersionName true, if the version name should be derviced from version number if not present
-     * @return this
-     */
-    public ChangelogBuilder withAutoDeriveVersionName(boolean autoDeriveVersionName) {
-        mAutoDeriveVersionName = autoDeriveVersionName;
-        return this;
-    }
-
     // ------------------------
     // build method
     // ------------------------
@@ -380,7 +387,7 @@ public class ChangelogBuilder implements Parcelable {
      */
     public Changelog build(Context context) {
         try {
-            return ChangelogParserUtil.readChangeLogFile(context, mXmlFileId, mAutoDeriveVersionName);
+            return ChangelogParserUtil.readChangeLogFile(context, mXmlFileId, mAutoVersionNameFormatter);
         } catch (Exception e) {
             // crash the app, something is not workking and should be fixed
             throw new RuntimeException(e);
