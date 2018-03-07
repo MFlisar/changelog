@@ -14,8 +14,24 @@ import com.michaelflisar.changelog.ChangelogBuilder;
 
 public interface IChangelogRenderer<VHHeader extends RecyclerView.ViewHolder, VHRow extends RecyclerView.ViewHolder> extends Parcelable {
 
+    /**
+     * create a Viewholder for the recycler for a header item
+     *
+     * @param inflater the inflator to inflate a layout
+     * @param parent the parent view group
+     * @param builder the builder
+     * @return the new view holder instance
+     */
     VHHeader createHeaderViewHolder(LayoutInflater inflater, ViewGroup parent, ChangelogBuilder builder);
 
+    /**
+     * create a Viewholder for the recycler for a header item
+     *
+     * @param inflater the inflator to inflate a layout
+     * @param parent the parent view group
+     * @param builder the builder
+     * @return the new view holder instance
+     */
     VHRow createRowViewHolder(LayoutInflater inflater, ViewGroup parent, ChangelogBuilder builder);
 
     /**
