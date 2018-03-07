@@ -92,7 +92,10 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withRenderer(...); // provide a custom item renderer
 ```	
 
-Have a look at the default renderer here: [ChangelogRenderer.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/classes/ChangelogRenderer.java)
+Have a look at following classes to see how this works:
+
+* default renderer: [ChangelogRenderer.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/classes/ChangelogRenderer.java)
+* example custom renderer: [ExampleCustomRenderer.java](https://github.com/MFlisar/changelog/blob/master/demo/src/main/java/com/michaelflisar/changelog/demo/ExampleCustomRenderer.java)
 
 ### TODO
 
