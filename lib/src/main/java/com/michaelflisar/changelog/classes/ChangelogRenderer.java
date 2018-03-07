@@ -113,9 +113,6 @@ public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.V
     // Parcelable
     // ------------------------
 
-    ChangelogRenderer(Parcel in) {
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -128,7 +125,7 @@ public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.V
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public ChangelogRenderer createFromParcel(Parcel in) {
-            return new ChangelogRenderer(in);
+            return new ChangelogRenderer();
         }
 
         public ChangelogRenderer[] newArray(int size) {

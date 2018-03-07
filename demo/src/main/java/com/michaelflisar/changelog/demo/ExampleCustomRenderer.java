@@ -20,9 +20,6 @@ import com.michaelflisar.changelog.classes.Row;
 // here we just extent the default renderer and change some small things for demonstration purposes
 public class ExampleCustomRenderer extends ChangelogRenderer {
 
-    public ExampleCustomRenderer() {
-    }
-
     @Override
     public void bindHeader(Context context, ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
         // default rendering
@@ -53,22 +50,9 @@ public class ExampleCustomRenderer extends ChangelogRenderer {
     // Parcelable
     // ------------------------
 
-    ExampleCustomRenderer(Parcel in) {
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public ExampleCustomRenderer createFromParcel(Parcel in) {
-            return new ExampleCustomRenderer(in);
+            return new ExampleCustomRenderer();
         }
 
         public ExampleCustomRenderer[] newArray(int size) {
