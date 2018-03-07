@@ -60,6 +60,7 @@ public class ChangelogBuilder implements Parcelable {
         // default values
         mMinVersionToShow = -1; // show all
         mUseBulletList = false; // no bullet list
+        // custom interfaces
         mFilter = null;
         mRenderer = new ChangelogRenderer();
         mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
@@ -72,7 +73,7 @@ public class ChangelogBuilder implements Parcelable {
         mLayoutItemVersionId = R.id.tvHeaderVersion;
         mLayoutItemDateId = R.id.tvHeaderDate;
         mLayoutItemTextId = R.id.tvText;
-
+        // manage versions to show in preferences
         mManagedShowOnStart = false;
     }
 
