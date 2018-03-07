@@ -82,17 +82,21 @@ ChangelogBuilder builder = new ChangelogBuilder()
 </changelog>
 ```
 
-### TODO
+### Advanced usage
 
-Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:
-* using custom layouts - is prepared actually and you can even provide a custom renderer to the builder, but this is untested (therefore it's not documented above)
+#### Using custom layouts - simply provide custom layout ids, item ids and a custom renderer (very simply interface) 
 
 ```java
 ChangelogBuilder builder = new ChangelogBuilder()
 	.withLayout<...>Id(id) // provide custom layout ids and item ids
 	.withRenderer(...); // provide a custom item renderer
 ```	
-	
+
+Have a look at the default renderer here: [ChangelogRenderer.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/classes/ChangelogRenderer.java)
+
+### TODO
+
+Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:	
 * support online source for xml - https://github.com/MFlisar/changelog/issues/1
 
 ### Credits

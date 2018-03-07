@@ -73,29 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // Changelog
         ChangelogBuilder builder = new ChangelogBuilder()
                 .withUseBulletList(bulletList)
-                .withManagedShowOnStart(managed)
-                .withLayoutHeaderId()
-                .withRenderer(new IChangelogRenderer() {
-                    @Override
-                    public void bindHeader(Context context, ChangelogRecyclerViewAdapter.ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
-
-                    }
-
-                    @Override
-                    public void bindRow(Context context, ChangelogRecyclerViewAdapter.ViewHolderRow viewHolder, Row row, ChangelogBuilder builder) {
-
-                    }
-
-                    @Override
-                    public int describeContents() {
-                        return 0;
-                    }
-
-                    @Override
-                    public void writeToParcel(Parcel dest, int flags) {
-
-                    }
-                });
+                .withManagedShowOnStart(managed);
         if (showVersion11OrHigherOnly) {
             builder.withMinVersionToShow(110);
         }
