@@ -5,13 +5,14 @@ import android.content.Context;
 import com.michaelflisar.changelog.Changelog;
 import com.michaelflisar.changelog.R;
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
+import com.michaelflisar.changelog.tags.IChangelogTag;
 
 /**
  * Created by flisar on 05.03.2018.
  */
 public class Row implements IRecyclerViewItem {
     private final Release mRelease;
-    private final Changelog.Type mType;
+    private final IChangelogTag mType;
 
     private String mTitle;
     private String mText;
@@ -21,7 +22,7 @@ public class Row implements IRecyclerViewItem {
         return mRelease;
     }
 
-    public final Changelog.Type getType() {
+    public final IChangelogTag getType() {
         return mType;
     }
 
@@ -32,7 +33,7 @@ public class Row implements IRecyclerViewItem {
     public final String getText(Context context) {
         if (context == null)
             return mText;
-        return Formatter.getFormatter().formatChangelogRow(context, mType, mText);
+        return mType.formatChangelogRow(context, mText);
     }
 
     @Override
@@ -45,9 +46,9 @@ public class Row implements IRecyclerViewItem {
         return mRelease.getVersionCode();
     }
 
-    public Row(Release release, String tag, String title, String text, String filter) {
+    public Row(Release release, IChangelogTag tag, String title, String text, String filter) {
         mRelease = release;
-        mType = Changelog.Type.parseFromString(tag);
+        mType = tag;
         mTitle = title;
         if (text != null) {
             text = text.replaceAll("\\[", "<").replaceAll("\\]", ">");

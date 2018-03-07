@@ -13,9 +13,6 @@ public class Constants {
     // XML Tags
     public static final String XML_ROOT_TAG = "changelog";
     public static final String XML_RELEASE_TAG = "release";
-    public static final String XML_TAG_INFO = "info";
-    public static final String XML_TAG_IMPROVEMENT = "improvement";
-    public static final String XML_TAG_BUGFIX = "bugfix";
 
     // XML Attributes
     public static final String XML_ATTR_VERSION_CODE = "versionCode";
@@ -23,12 +20,6 @@ public class Constants {
     public static final String XML_ATTR_DATE = "date";
     public static final String XML_ATTR_FILTER = "filter";
     public static final String XML_ATTR_TITLE = "title";
-
-    public static final List<String> VALID_RELEASE_SUB_TAGS = new ArrayList<String>() {{
-        add(XML_TAG_INFO);
-        add(XML_TAG_IMPROVEMENT);
-        add(XML_TAG_BUGFIX);
-    }};
 }
 
 // TODO: Beispiel

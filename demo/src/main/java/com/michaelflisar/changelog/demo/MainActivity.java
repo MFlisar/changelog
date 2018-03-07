@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
+import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
 
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // should be done ONCE only, preferable in a custom application class!
+        ChangelogSetup.get().registerTag(new MyCustomXMLTag());
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 

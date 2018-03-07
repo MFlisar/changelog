@@ -8,6 +8,7 @@ import com.michaelflisar.changelog.classes.Release;
 import com.michaelflisar.changelog.classes.Row;
 import com.michaelflisar.changelog.internal.ChangelogException;
 import com.michaelflisar.changelog.internal.Constants;
+import com.michaelflisar.changelog.tags.IChangelogTag;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -104,13 +105,14 @@ class ChangelogParserUtil {
             }
             // make sure we understand the tag we found
             String tag = parser.getName();
-            if (Constants.VALID_RELEASE_SUB_TAGS.contains(tag)) {
-                readReleaseRowNode(tag, parser, changelog, release);
+            IChangelogTag changelogTag = ChangelogSetup.get().findTag(tag);
+            if (changelogTag != null) {
+                readReleaseRowNode(changelogTag, parser, changelog, release);
             }
         }
     }
 
-    private static void readReleaseRowNode(String tag, XmlPullParser parser, Changelog changelog, Release release) throws Exception {
+    private static void readReleaseRowNode(IChangelogTag changelogTag, XmlPullParser parser, Changelog changelog, Release release) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
@@ -131,7 +133,7 @@ class ChangelogParserUtil {
         }
 
         // 3) create row element and add it to release element
-        Row row = new Row(release, tag, title, text, filter);
+        Row row = new Row(release, changelogTag, title, text, filter);
         release.add(row);
     }
 }

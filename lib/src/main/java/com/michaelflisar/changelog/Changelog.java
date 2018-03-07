@@ -30,29 +30,4 @@ public class Changelog {
     public final List<IRecyclerViewItem> getAllRecyclerViewItems() {
         return ChangelogUtil.getRecyclerViewItems(mReleases);
     }
-
-    // ----------------------
-    // Enum
-    // ----------------------
-
-    public enum Type {
-        Info,
-        Bug,
-        Improvement;
-
-        public static Type parseFromString(String type) {
-            if (type != null) {
-                if (type.equals(Constants.XML_TAG_BUGFIX)) {
-                    return Bug;
-                }
-                if (type.equals(Constants.XML_TAG_IMPROVEMENT)) {
-                    return Improvement;
-                }
-                if (type.equals(Constants.XML_TAG_INFO)) {
-                    return Info;
-                }
-            }
-            throw new RuntimeException(String.format("Could not parse changelog type: %s", type));
-        }
-    }
 }

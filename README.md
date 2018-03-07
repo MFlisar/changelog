@@ -9,6 +9,7 @@ Features:
 * optional bullet lists
 * supports custom and automatic version names (e.g. version 100 will be formatted as "v1.00" if desired)
 * supports fully customised layouts
+* supports custom xml tags + custom rendering of them
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
@@ -25,7 +26,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:0.8'
+    compile 'com.github.MFlisar:changelog:0.9'
 }
 ```
 
@@ -54,21 +55,21 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	<!-- simple example - no version name => will be generated based on verionCode: 100 => v1.00 -->
 	<release versionCode="120" versionName="v1.2" date="2018-03-04">
 		<info>Some info</info>
-		<improvement>Some improvement</improvement>
+		<new>Some improvement</new>
 		<bugfix>Some bugfix</bugfix>
 	</release>
 	
 	<!-- simple example - no filter -->
 	<release versionCode="120" versionName="v1.2" date="2018-03-04">
 		<info>Some info</info>
-		<improvement>Some improvement</improvement>
+		<new>Some improvement</new>
 		<bugfix>Some bugfix</bugfix>
 	</release>
 	
 	<!-- example with custom filter in release tag -->
 	<release versionCode="110" versionName="v1.1" date="2018-03-03" filter="dogs">
 		<info>Some dogs info - filter only set in release tag</info>
-		<improvement>Some dogs improvement - filter only set in release tag</improvement>
+		<new>Some dogs improvement - filter only set in release tag</new>
 		<bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
 	</release>
 	
@@ -76,8 +77,8 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	<release versionCode="100" versionName="v1.0" date="2018-03-01">
 		<info filter="cats">New cats added - this info has filter text 'cats'</info>
 		<info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
-		<improvement filter="cats">Some cats improvement - this info has filter text 'cats'</improvement>
-		<improvement filter="dogs">Some dogs improvement - this info has filter text 'dogs'</improvement>
+		<new filter="cats">Some cats improvement - this info has filter text 'cats'</new>
+		<new filter="dogs">Some dogs improvement - this info has filter text 'dogs'</new>
 		<bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
 		<bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
 	</release>
@@ -97,6 +98,12 @@ Have a look at following classes to see how this works:
 
 * default renderer: [ChangelogRenderer.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/classes/ChangelogRenderer.java)
 * example custom renderer: [ExampleCustomRenderer.java](https://github.com/MFlisar/changelog/blob/master/demo/src/main/java/com/michaelflisar/changelog/demo/ExampleCustomRenderer.java)
+
+#### Custom tags
+
+* create a custom tag class that implements [IChangelogTag.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/tags/IChangelogTag.java)
+* register this class like `ChangelogSetup.get().registerTag(...)`
+* optionally unregister all 3 default tags before adding custom tags if don't want to use them:  `ChangelogSetup.get().clearTags()`
 
 ### TODO
 
