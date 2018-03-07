@@ -12,6 +12,7 @@ Features:
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
+![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/custom.png)
  
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 

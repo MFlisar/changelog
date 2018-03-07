@@ -22,27 +22,44 @@ public class ExampleCustomRenderer extends ChangelogRenderer {
 
     @Override
     public void bindHeader(Context context, ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
+        //--------------
         // default rendering
+        //--------------
+
         super.bindHeader(context, viewHolder, release, builder);
 
+        //--------------
         // Customising
+        //--------------
+
+        // change text sizes, style and colors
         viewHolder.getTvVersion().setTextColor(Color.RED);
         viewHolder.getTvVersion().setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         viewHolder.getTvVersion().setAllCaps(true);
         viewHolder.getTvVersion().setTypeface(null, Typeface.BOLD_ITALIC);
+
+        // append the version code to the version name
+        viewHolder.getTvVersion().setText(String.format("%s (%d)", viewHolder.getTvVersion().getText(), release.getVersionCode()));
 
         viewHolder.getTvDate().setTextColor(Color.GREEN);
     }
 
     @Override
     public void bindRow(Context context, ViewHolderRow viewHolder, Row row, ChangelogBuilder builder) {
+        //--------------
         // default rendering
+        //--------------
         super.bindRow(context, viewHolder, row, builder);
 
+        //--------------
         // Customising
+        //--------------
+
+        // change text sizes, style and colors
         viewHolder.getTvText().setTextColor(Color.BLUE);
         viewHolder.getTvText().setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
+        // change bullet list text
         viewHolder.getTvBullet().setText("* ");
     }
 
