@@ -2,9 +2,7 @@
 
 This is a simple builder based changelog library that shows a changelog in a `RecyclerView`, a `RecyclerView` dialog or a `RecyclerView` activity with following features:
 
-It supports custom filters, to easily only show parts of your changelog (for example based on a build flavour or to only show new changelog entries on app start).
-
-Features:
+**Features:**
 * filtering
   * based on a min version (useful for app start to only show new changelog entries)
   * based on a custom filter string (useful for filtering changelog based on build flavour)
