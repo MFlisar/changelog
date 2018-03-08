@@ -2,7 +2,7 @@
 
 This is a simple builder based changelog library that shows a changelog in a `RecyclerView`, a `RecyclerView` dialog or a `RecyclerView` activity with following features:
 
-**Features:**
+**Features**
 * filtering
   * based on a min version (useful for app start to only show new changelog entries)
   * based on a custom filter string (useful for filtering changelog based on build flavour)
@@ -16,7 +16,7 @@ This is a simple builder based changelog library that shows a changelog in a `Re
   * **custom xml tags** + **custom rendering** of them
   * automatic and **custom sorting**
 
-**Examples - activity, dialog, autmatically sorted activity, custom layout**
+**Examples - activity, dialog, automatically sorted activity, custom layout**
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
