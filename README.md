@@ -18,6 +18,7 @@ This is a simple builder based changelog library that shows a changelog in a `Re
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
+![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/activity-sorted.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/custom.png)
  
 ### Gradle (via [JitPack.io](https://jitpack.io/))
