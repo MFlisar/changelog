@@ -72,6 +72,12 @@
                             android:layout_height="wrap_content"
                             android:text="Use custom layotu created by a custom item renderer"/>
 
+                        <CheckBox
+                            android:id="@+id/cbUseSorter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Use auto sorter (sort entries by importance: new, info, bugfix)"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
+import com.michaelflisar.changelog.classes.ImportanceChangelogSorter;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         boolean rowsShouldInheritFilterTextFromReleaseTag = mBinding.cbInheritFilter.isChecked();
         boolean managed = mBinding.cbManaged.isChecked();
         boolean useCustomRenderer = mBinding.cbCustomRenderer.isChecked();
+        boolean useSorter = mBinding.cbUseSorter.isChecked();
 
         String stringToFilter = null;
         int rgCustomFilterCheckedItemId = mBinding.rgCustomFilter.getCheckedRadioButtonId();
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (useCustomRenderer) {
             builder.withRenderer(new ExampleCustomRenderer());
+        }
+        if (useSorter) {
+            builder.withSorter(new ImportanceChangelogSorter());
         }
         if (showAsDialog) {
             builder.buildAndShowDialog(this, false);

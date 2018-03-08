@@ -1,15 +1,22 @@
 ### Changelog [![Release](https://jitpack.io/v/MFlisar/changelog.svg)](https://jitpack.io/#MFlisar/changelog)
 
-This is a simple (and lightweight) builder based changelog library that will show a changelog defined as xml in a `RecyclerView` or a `RecyclerView` dialog. It supports custom filters, to easily only show parts of your changelog (for example based on a build flavour or to only show new changelog entries on app start).
+This is a simple builder based changelog library that shows a changelog in a `RecyclerView`, a `RecyclerView` dialog or a `RecyclerView` activity with following features:
+
+It supports custom filters, to easily only show parts of your changelog (for example based on a build flavour or to only show new changelog entries on app start).
 
 Features:
-* filtering (based on flavour for example)
-* filtering by min version
-* optionally show dialog/activity only once or if new changelogs are available which the user has not seen yet
-* optional bullet lists
-* supports custom and automatic version names (e.g. version 100 will be formatted as "v1.00" if desired)
-* supports fully customised layouts
-* supports custom xml tags + custom rendering of them
+* filtering
+  * based on a min version (useful for app start to only show new changelog entries)
+  * based on a custom filter string (useful for filtering changelog based on build flavour)
+* builder supports `RecyclerView`, `Dialog` or `Activity`
+* also supports automatic handling of showing changelogs on app start (uses preference to save last seen changelog version and handles everything for you automatically to only show **new changelogs** and only show those once)
+* shows loading progress in `Dialog` or `Activity` while parsing changelog
+* customise look
+  * optional bullet lists
+  * custom and automatic version names (e.g. version 100 will be formatted as "v1.00" by default if no custom version name is provided)
+  * fully customised layouts via a custom renderer
+  * custom xml tags + custom rendering of them
+  * automatic and custom sorting
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
@@ -26,7 +33,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:0.9'
+    compile 'com.github.MFlisar:changelog:1.0'
 }
 ```
 
@@ -105,10 +112,21 @@ Have a look at following classes to see how this works:
 * register this class like `ChangelogSetup.get().registerTag(...)`
 * optionally unregister all 3 default tags before adding custom tags if don't want to use them:  `ChangelogSetup.get().clearTags()`
 
+#### Custom sorting
+
+* create a custom tag class that implements [IChangelogSorter.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/classes/IChangelogSorter.java) or use the integrated sorter that sorts by importance (new > info > bugfix > custom)
+* add it to the builder like following:
+
+```java
+ChangelogBuilder builder = new ChangelogBuilder()
+	.withSorter(new ImportanceChangelogSorter()); // or provide a custom sorter
+```
+
 ### TODO
 
 Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:	
 * support online source for xml - https://github.com/MFlisar/changelog/issues/1
+* support show changelog summaries - https://github.com/MFlisar/changelog/issues/3
 * add some setup features to the default `ChangelogRenderer` (colors, text size, ...)
 
 ### Credits

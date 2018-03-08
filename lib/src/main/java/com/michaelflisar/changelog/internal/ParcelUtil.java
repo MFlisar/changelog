@@ -35,4 +35,20 @@ public class ParcelUtil {
         }
         return data;
     }
+
+    public static void writeParcelableNullableInterface(Parcel dest, Parcelable data) {
+        writeBoolean(dest, data != null);
+        if (data != null) {
+            writeParcelableInterface(dest, data);
+        }
+    }
+
+    public static <T extends Parcelable> T readParcelableNullableInterface(Parcel in) {
+        boolean hasData = readBoolean(in);
+        if (hasData) {
+            return readParcelableInterface(in);
+        } else {
+            return null;
+        }
+    }
 }

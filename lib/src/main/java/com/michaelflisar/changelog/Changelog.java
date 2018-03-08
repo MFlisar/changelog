@@ -1,10 +1,11 @@
 package com.michaelflisar.changelog;
 
+import com.michaelflisar.changelog.classes.IChangelogSorter;
 import com.michaelflisar.changelog.classes.IRecyclerViewItem;
 import com.michaelflisar.changelog.classes.Release;
-import com.michaelflisar.changelog.internal.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,6 +18,14 @@ public class Changelog {
 
     Changelog() {
         mReleases = new ArrayList<>();
+    }
+
+    public void sort(IChangelogSorter sorter) {
+        if (sorter != null) {
+            for (Release r : mReleases) {
+                Collections.sort(r.getRows(), sorter);
+            }
+        }
     }
 
     void add(Release release) {

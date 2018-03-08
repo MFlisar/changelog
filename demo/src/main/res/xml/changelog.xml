@@ -1,8 +1,14 @@
 <changelog>
     <release versionCode="120" date="2018-03-04">
-        <info>Some info</info>
-        <new>Some improvement</new>
-        <bugfix>Some bugfix</bugfix>
+        <info>Some info 1</info>
+        <new>Some improvement 1</new>
+        <bugfix>Some bugfix 1</bugfix>
+        <info>Some info 2</info>
+        <new>Some improvement 2</new>
+        <bugfix>Some bugfix 2</bugfix>
+        <info>Some info 3</info>
+        <new>Some improvement 3</new>
+        <bugfix>Some bugfix 3</bugfix>
         <customTag>My custom tag text...</customTag>
     </release>
     <release versionCode="115" date="2018-03-04">

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
+import com.michaelflisar.changelog.classes.IChangelogSorter;
 import com.michaelflisar.changelog.classes.Release;
 import com.michaelflisar.changelog.classes.Row;
 import com.michaelflisar.changelog.internal.ChangelogException;
@@ -21,7 +22,7 @@ import java.io.IOException;
 
 class ChangelogParserUtil {
 
-    static Changelog readChangeLogFile(Context context, int changelogXmlFileId, IAutoVersionNameFormatter autoVersionNameFormatter) throws Exception {
+    static Changelog readChangeLogFile(Context context, int changelogXmlFileId, IAutoVersionNameFormatter autoVersionNameFormatter, IChangelogSorter sorter) throws Exception {
         Changelog changelog = null;
 
         try {
@@ -33,6 +34,9 @@ class ChangelogParserUtil {
 
             // 2) Parse file into Changelog object
             parseMainNode(parser, changelog, autoVersionNameFormatter);
+
+            // 3) sort changelogs
+            changelog.sort(sorter);
         } catch (XmlPullParserException xpe) {
             Log.d(Constants.DEBUG_TAG, "XmlPullParseException while parsing changelog file", xpe);
             throw xpe;

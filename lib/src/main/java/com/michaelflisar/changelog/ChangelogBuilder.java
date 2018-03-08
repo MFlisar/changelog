@@ -14,6 +14,7 @@ import com.michaelflisar.changelog.classes.DefaultAutoVersionNameFormatter;
 import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
 import com.michaelflisar.changelog.classes.IChangelogFilter;
 import com.michaelflisar.changelog.classes.IChangelogRenderer;
+import com.michaelflisar.changelog.classes.IChangelogSorter;
 import com.michaelflisar.changelog.classes.IRecyclerViewItem;
 import com.michaelflisar.changelog.internal.ChangelogActivity;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -38,6 +39,7 @@ public class ChangelogBuilder implements Parcelable {
     private int mMinVersionToShow;
     private boolean mUseBulletList;
     private IChangelogFilter mFilter;
+    private IChangelogSorter mSorter;
     private IChangelogRenderer mRenderer;
     private IAutoVersionNameFormatter mAutoVersionNameFormatter;
 
@@ -55,6 +57,7 @@ public class ChangelogBuilder implements Parcelable {
         mUseBulletList = false; // no bullet list
         // custom interfaces
         mFilter = null;
+        mSorter = null;
         mRenderer = new ChangelogRenderer();
         mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
         // layout id
@@ -70,12 +73,8 @@ public class ChangelogBuilder implements Parcelable {
     ChangelogBuilder(Parcel in) {
         mMinVersionToShow = in.readInt();
         mUseBulletList = ParcelUtil.readBoolean(in);
-        boolean hasFilter = ParcelUtil.readBoolean(in);
-        if (hasFilter) {
-            mFilter = ParcelUtil.readParcelableInterface(in);
-        } else {
-            mFilter = null;
-        }
+        mFilter = ParcelUtil.readParcelableNullableInterface(in);
+        mSorter = ParcelUtil.readParcelableNullableInterface(in);
         mRenderer = ParcelUtil.readParcelableInterface(in);
         mAutoVersionNameFormatter = ParcelUtil.readParcelableInterface(in);
         mXmlFileId = in.readInt();
@@ -91,10 +90,8 @@ public class ChangelogBuilder implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mMinVersionToShow);
         ParcelUtil.writeBoolean(dest, mUseBulletList);
-        ParcelUtil.writeBoolean(dest, mFilter != null);
-        if (mFilter != null) {
-            ParcelUtil.writeParcelableInterface(dest, mFilter);
-        }
+        ParcelUtil.writeParcelableNullableInterface(dest, mFilter);
+        ParcelUtil.writeParcelableNullableInterface(dest, mSorter);
         ParcelUtil.writeParcelableInterface(dest, mRenderer);
         ParcelUtil.writeParcelableInterface(dest, mAutoVersionNameFormatter);
         dest.writeInt(mXmlFileId);
@@ -134,6 +131,13 @@ public class ChangelogBuilder implements Parcelable {
      */
     public final IChangelogFilter getFilter() {
         return mFilter;
+    }
+
+    /**
+     * @return sorter object that will do the automatic sorting or null
+     */
+    public final IChangelogSorter getSorter() {
+        return mSorter;
     }
 
     /**
@@ -191,6 +195,17 @@ public class ChangelogBuilder implements Parcelable {
      */
     public ChangelogBuilder withFilter(IChangelogFilter filter) {
         mFilter = filter;
+        return this;
+    }
+
+    /**
+     * provide a custom filter class or @{@link com.michaelflisar.changelog.classes.ImportanceChangelogSorter} to sort the changelog
+     *
+     * @param sorter the sorter object that will handle sorting if provided
+     * @return this
+     */
+    public ChangelogBuilder withSorter(IChangelogSorter sorter) {
+        mSorter = sorter;
         return this;
     }
 
@@ -254,7 +269,7 @@ public class ChangelogBuilder implements Parcelable {
      */
     public Changelog build(Context context) {
         try {
-            return ChangelogParserUtil.readChangeLogFile(context, mXmlFileId, mAutoVersionNameFormatter);
+            return ChangelogParserUtil.readChangeLogFile(context, mXmlFileId, mAutoVersionNameFormatter, mSorter);
         } catch (Exception e) {
             // crash the app, something is not workking and should be fixed
             throw new RuntimeException(e);
@@ -286,7 +301,10 @@ public class ChangelogBuilder implements Parcelable {
         Integer minVersion = null;
         if (!mManagedShowOnStart || (minVersion = ChangelogPreferenceUtil.shouldShowChangelogOnStart(activity)) != null) {
             if (minVersion != null) {
-                withMinVersionToShow(minVersion);
+                // only overwrite min version if unseen version is higher than user selected min version
+                if (minVersion > mMinVersionToShow) {
+                    withMinVersionToShow(minVersion);
+                }
             }
             ChangelogDialogFragment dlg = ChangelogDialogFragment.create(this, darkTheme);
             dlg.show(activity.getSupportFragmentManager(), ChangelogDialogFragment.class.getName());
@@ -319,7 +337,10 @@ public class ChangelogBuilder implements Parcelable {
         Integer minVersion = null;
         if (!mManagedShowOnStart || (minVersion = ChangelogPreferenceUtil.shouldShowChangelogOnStart(context)) != null) {
             if (minVersion != null) {
-                withMinVersionToShow(minVersion);
+                // only overwrite min version if unseen version is higher than user selected min version
+                if (minVersion > mMinVersionToShow) {
+                    withMinVersionToShow(minVersion);
+                }
             }
             Intent intent = ChangelogActivity.createIntent(context, this, theme);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
