@@ -92,7 +92,9 @@ ChangelogBuilder builder = new ChangelogBuilder()
 
 ### Advanced usage
 
-#### Using custom layouts - simply provide custom a custom renderer (very simply interface), derive it from the default `ChangelogRenderer` to only adjust small things.
+#### Custom layouts
+
+Simply provide custom a custom renderer (very simply interface), derive it from the default `ChangelogRenderer` to only adjust small things.
 
 ```java
 ChangelogBuilder builder = new ChangelogBuilder()
