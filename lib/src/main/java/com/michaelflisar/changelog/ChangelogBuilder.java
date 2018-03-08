@@ -298,22 +298,17 @@ public class ChangelogBuilder implements Parcelable {
      * @return the DialogFragment
      */
     public ChangelogDialogFragment buildAndShowDialog(AppCompatActivity activity, boolean darkTheme) {
-        Integer minVersion = null;
-        if (!mManagedShowOnStart || (minVersion = ChangelogPreferenceUtil.shouldShowChangelogOnStart(activity)) != null) {
-            if (minVersion != null) {
-                // only overwrite min version if unseen version is higher than user selected min version
-                if (minVersion > mMinVersionToShow) {
-                    withMinVersionToShow(minVersion);
-                }
-            }
-            ChangelogDialogFragment dlg = ChangelogDialogFragment.create(this, darkTheme);
+        boolean shouldShow = checkShouldShowAndUpdateMinVersion(activity);
+        ChangelogDialogFragment dlg = null;
+        if (shouldShow) {
+            dlg = ChangelogDialogFragment.create(this, darkTheme);
             dlg.show(activity.getSupportFragmentManager(), ChangelogDialogFragment.class.getName());
-            ChangelogPreferenceUtil.updateAlreadyShownChangelogVersion(activity);
-            return dlg;
+
         } else {
             Log.i(Constants.DEBUG_TAG, "Showing changelog dialog skipped");
-            return null;
         }
+        ChangelogPreferenceUtil.updateAlreadyShownChangelogVersion(activity);
+        return dlg;
     }
 
     /**
@@ -334,25 +329,39 @@ public class ChangelogBuilder implements Parcelable {
      * @param theme   theme id or null for light default theme
      */
     public void buildAndStartActivity(Context context, Integer theme) {
-        Integer minVersion = null;
-        if (!mManagedShowOnStart || (minVersion = ChangelogPreferenceUtil.shouldShowChangelogOnStart(context)) != null) {
-            if (minVersion != null) {
-                // only overwrite min version if unseen version is higher than user selected min version
-                if (minVersion > mMinVersionToShow) {
-                    withMinVersionToShow(minVersion);
-                }
-            }
+        boolean shouldShow = checkShouldShowAndUpdateMinVersion(context);
+        if (shouldShow) {
             Intent intent = ChangelogActivity.createIntent(context, this, theme);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             Log.i(Constants.DEBUG_TAG, "Showing changelog activity skipped");
         }
+        updateManagedLastShownVersion(context);
     }
 
     // ------------------------
     // helper method
     // ------------------------
+
+    private final boolean checkShouldShowAndUpdateMinVersion(Context context) {
+        if (!mManagedShowOnStart) {
+            return true;
+        }
+        Integer autoMinVersionToShow = ChangelogPreferenceUtil.shouldShowChangelogOnStart(context);
+        // only overwrite min version if unseen version is higher than user selected min version
+        if (autoMinVersionToShow != null && autoMinVersionToShow > mMinVersionToShow) {
+            withMinVersionToShow(autoMinVersionToShow);
+        }
+
+        return autoMinVersionToShow != null;
+    }
+
+    private final void updateManagedLastShownVersion(Context context) {
+        if (mManagedShowOnStart) {
+            ChangelogPreferenceUtil.updateAlreadyShownChangelogVersion(context);
+        }
+    }
 
     public List<IRecyclerViewItem> getRecyclerViewItems(Context context) {
         Changelog changelog = build(context);

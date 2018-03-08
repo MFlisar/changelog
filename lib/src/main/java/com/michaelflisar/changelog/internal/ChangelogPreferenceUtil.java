@@ -29,7 +29,8 @@ public class ChangelogPreferenceUtil {
     public static Integer shouldShowChangelogOnStart(Context context) {
         int lastChangelog = getAlreadyShownChangelogVersion(context);
         int currentVersion = ChangelogUtil.getAppVersionCode(context);
-        if (lastChangelog < currentVersion) {
+        // return last shown version if this is not the first app install AND if last version is less than current
+        if (lastChangelog != -1 && lastChangelog < currentVersion) {
             return lastChangelog + 1;
         }
         return null;
