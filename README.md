@@ -12,7 +12,7 @@ This is a simple builder based changelog library that shows a changelog in a `Re
 * customise look
   * optional bullet lists
   * custom and automatic version names (e.g. version 100 will be formatted as "v1.00" by default if no custom version name is provided)
-  * fully** customised layouts** via a custom renderer
+  * fully **customised layouts** via a custom renderer
   * custom xml tags + **custom rendering** of them
   * automatic and **custom sorting**
 
