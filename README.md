@@ -16,10 +16,12 @@ This is a simple builder based changelog library that shows a changelog in a `Re
   * **custom xml tags** + **custom rendering** of them
   * automatic and **custom sorting**
 
+**Examples - activity, dialog, autmatically sorted activity, custom layout**
+
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
-![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/activity-sorted.png)
-![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/custom.png)
+![Changelog dialog-sorted](https://github.com/MFlisar/changelog/blob/master/images/activity-sorted.png)
+![Changelog custom](https://github.com/MFlisar/changelog/blob/master/images/custom.png)
  
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
