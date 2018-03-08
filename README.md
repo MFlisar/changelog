@@ -6,15 +6,15 @@ This is a simple builder based changelog library that shows a changelog in a `Re
 * filtering
   * based on a min version (useful for app start to only show new changelog entries)
   * based on a custom filter string (useful for filtering changelog based on build flavour)
-* builder supports `RecyclerView`, `Dialog` or `Activity`
+* builder supports any in layout `RecyclerView` or provides a ready to use `Dialog` or `Activity`
 * also supports automatic handling of showing changelogs on app start (uses preference to save last seen changelog version and handles everything for you automatically to only show **new changelogs** and only show those once)
 * shows loading progress in `Dialog` or `Activity` while parsing changelog
 * customise look
   * optional bullet lists
   * custom and automatic version names (e.g. version 100 will be formatted as "v1.00" by default if no custom version name is provided)
-  * fully customised layouts via a custom renderer
-  * custom xml tags + custom rendering of them
-  * automatic and custom sorting
+  * fully** customised layouts** via a custom renderer
+  * custom xml tags + **custom rendering** of them
+  * automatic and **custom sorting**
 
 ![Changelog activity](https://github.com/MFlisar/changelog/blob/master/images/activity.png)
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
