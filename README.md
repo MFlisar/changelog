@@ -34,7 +34,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:1.0.1'
+    compile 'com.github.MFlisar:changelog:1.0.2'
 }
 ```
 
@@ -113,7 +113,7 @@ Have a look at following classes to see how this works:
 
 * create a custom tag class that implements [IChangelogTag.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/tags/IChangelogTag.java)
 * register this class like `ChangelogSetup.get().registerTag(...)`
-* optionally unregister all 3 default tags before adding custom tags if don't want to use them:  `ChangelogSetup.get().clearTags()`
+* optionally unregister all 3 default tags before adding custom tags if you don't want to use them: `ChangelogSetup.get().clearTags()`
 
 #### Custom sorting
 

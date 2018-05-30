@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         if (showAsDialog) {
             builder.buildAndShowDialog(this, false);
         } else {
-            builder.buildAndStartActivity(this);
+            builder.buildAndStartActivity(this, true);
         }
     }
 

@@ -3,10 +3,11 @@ package com.michaelflisar.changelog.internal;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
@@ -19,10 +20,11 @@ import com.michaelflisar.changelog.R;
 
 public class ChangelogActivity extends AppCompatActivity {
 
-    public static Intent createIntent(Context context, ChangelogBuilder changelogBuilder, Integer theme) {
+    public static Intent createIntent(Context context, ChangelogBuilder changelogBuilder, Integer theme, boolean themeHasActionBar) {
         Intent intent = new Intent(context, ChangelogActivity.class);
         intent.putExtra("builder", changelogBuilder);
         intent.putExtra("theme", theme == null ? -1 : theme);
+        intent.putExtra("themeHasActionBar", themeHasActionBar);
         return intent;
     }
 
@@ -39,6 +41,14 @@ public class ChangelogActivity extends AppCompatActivity {
         setContentView(R.layout.changelog_activity);
 
         mBuilder = getIntent().getParcelableExtra("builder");
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        boolean themeHasActionBar = getIntent().getBooleanExtra("themeHasActionBar", false);
+        if (!themeHasActionBar) {
+            setSupportActionBar(toolbar);
+        } else {
+            toolbar.setVisibility(View.GONE);
+        }
 
         getSupportActionBar().setTitle(getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(this)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

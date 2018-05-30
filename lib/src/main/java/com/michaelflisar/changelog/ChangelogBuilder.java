@@ -315,10 +315,11 @@ public class ChangelogBuilder implements Parcelable {
      * build the changelog class which will read the xml file
      * and show it in an activity
      *
+     * @param appThemeHasActionBar true, if the apps theme contains a toolbar, false if not
      * @param context the context to use to start the activity
      */
-    public void buildAndStartActivity(Context context) {
-        buildAndStartActivity(context, null);
+    public void buildAndStartActivity(Context context, boolean appThemeHasActionBar) {
+        buildAndStartActivity(context, null, appThemeHasActionBar);
     }
 
     /**
@@ -327,11 +328,12 @@ public class ChangelogBuilder implements Parcelable {
      *
      * @param context the context to use to start the activity
      * @param theme   theme id or null for light default theme
+     * @param themeHasActionBar true, if the theme (or the app theme if no theme is provided) contains a toolbar, false if not
      */
-    public void buildAndStartActivity(Context context, Integer theme) {
+    public void buildAndStartActivity(Context context, Integer theme, boolean themeHasActionBar) {
         boolean shouldShow = checkShouldShowAndUpdateMinVersion(context);
         if (shouldShow) {
-            Intent intent = ChangelogActivity.createIntent(context, this, theme);
+            Intent intent = ChangelogActivity.createIntent(context, this, theme, themeHasActionBar);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
