@@ -1,6 +1,6 @@
 <changelog>
     <release versionCode="120" date="2018-03-04">
-        <info>Some info 1</info>
+        <info>Some info 1 - apostrophe test: it's weird, but apostrophes do not work in precompiled xml files placed in xml resources!</info>
         <new>Some improvement 1</new>
         <bugfix>Some bugfix 1</bugfix>
         <info>Some info 2</info>

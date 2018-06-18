@@ -20,7 +20,7 @@ public class Changelog {
         mReleases = new ArrayList<>();
     }
 
-    public void sort(IChangelogSorter sorter) {
+    public final void sort(IChangelogSorter sorter) {
         if (sorter != null) {
             for (Release r : mReleases) {
                 Collections.sort(r.getRows(), sorter);
@@ -28,7 +28,7 @@ public class Changelog {
         }
     }
 
-    void add(Release release) {
+    final void add(Release release) {
         mReleases.add(release);
     }
 

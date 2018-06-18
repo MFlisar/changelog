@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
+import com.michaelflisar.changelog.classes.IChangelogRateHandler;
 import com.michaelflisar.changelog.classes.ImportanceChangelogSorter;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IChangelogRateHandler {
 
     private ActivityMainBinding mBinding;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         boolean managed = mBinding.cbManaged.isChecked();
         boolean useCustomRenderer = mBinding.cbCustomRenderer.isChecked();
         boolean useSorter = mBinding.cbUseSorter.isChecked();
+        boolean rateButton = mBinding.chRateButton.isChecked();
 
         String stringToFilter = null;
         int rgCustomFilterCheckedItemId = mBinding.rgCustomFilter.getCheckedRadioButtonId();
@@ -88,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
         if (useSorter) {
             builder.withSorter(new ImportanceChangelogSorter());
         }
+        if (rateButton) {
+            builder.withRateButton(true);
+        }
         if (showAsDialog) {
             builder.buildAndShowDialog(this, false);
         } else {
@@ -103,5 +109,12 @@ public class MainActivity extends AppCompatActivity {
                 disableEnableControls(enable, (ViewGroup) child);
             }
         }
+    }
+
+    @Override
+    public boolean onRateButtonClicked() {
+        Toast.makeText(this, "Rate button was clicked", Toast.LENGTH_LONG).show();
+        // button click handled
+        return true;
     }
 }

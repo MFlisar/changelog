@@ -42,6 +42,7 @@ public class ChangelogBuilder implements Parcelable {
     private IChangelogSorter mSorter;
     private IChangelogRenderer mRenderer;
     private IAutoVersionNameFormatter mAutoVersionNameFormatter;
+    private boolean mRateButton;
 
     private int mXmlFileId;
 
@@ -61,9 +62,10 @@ public class ChangelogBuilder implements Parcelable {
         mRenderer = new ChangelogRenderer();
         mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
         // layout id
-        mXmlFileId = R.xml.changelog;
+        mXmlFileId = R.raw.changelog;
         // manage versions to show in preferences
         mManagedShowOnStart = false;
+        mRateButton = false;
     }
 
     // ------------------------
@@ -161,6 +163,13 @@ public class ChangelogBuilder implements Parcelable {
         return mXmlFileId;
     }
 
+    /*
+     * @return true if rate button is shown, false otherwise
+     */
+    public final boolean isUseRateButton() {
+        return mRateButton;
+    }
+
     // -----------------
     // Setter
     // -----------------
@@ -254,6 +263,19 @@ public class ChangelogBuilder implements Parcelable {
      */
     public ChangelogBuilder withManagedShowOnStart(boolean managedShowOnStart) {
         mManagedShowOnStart = managedShowOnStart;
+        return this;
+    }
+
+    /**
+     * if enabled, a rate button is shown in the changelog dialog
+     * ATTENTION: the target fragment or the parent activity should implement {@link com.michaelflisar.changelog.classes.IChangelogRateHandler}, which will be called if the rate button is clicked
+     * ONLY WORKS WITH THE DIALOG MODE!
+     *
+     * @param rateButton true, if the rate button should be shown, false otherwise
+     * @return this
+     */
+    public ChangelogBuilder withRateButton(boolean rateButton) {
+        mRateButton = rateButton;
         return this;
     }
 

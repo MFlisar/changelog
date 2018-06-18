@@ -78,6 +78,12 @@
                             android:layout_height="wrap_content"
                             android:text="Use auto sorter (sort entries by importance: new, info, bugfix)"/>
 
+                        <CheckBox
+                            android:id="@+id/chRateButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Show rate button"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

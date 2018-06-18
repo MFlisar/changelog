@@ -15,6 +15,8 @@ This is a simple builder based changelog library that shows a changelog in a `Re
   * fully **customised layouts** via a custom renderer
   * **custom xml tags** + **custom rendering** of them
   * automatic and **custom sorting**
+* supports raw and xml resources, default resource name is `changelog.xml` in raw folder
+* supports an optional rate app button
 
 **Examples - activity, dialog, automatically sorted activity, custom layout**
 
@@ -34,7 +36,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:1.0.2'
+    compile 'com.github.MFlisar:changelog:1.0.3'
 }
 ```
 
@@ -44,7 +46,7 @@ Just check out the [demo activity](https://github.com/MFlisar/changelog/blob/mas
 
 ### Simple usage example
 
-You must add a `changelog.xml` to your xml resource file. Then you can use it like following:
+You must add a `changelog.xml` to your raw resource files. Then you can use it like following:
 
 ```java
 ChangelogBuilder builder = new ChangelogBuilder()
@@ -52,6 +54,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withMinVersionToShow(110)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
 	.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
 	.withManagedShowOnStart(true)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
+	.withRateButton(true) // enable this to show a "rate app" button in the dialog => the parent activity or target fragment should implement IChangelogRateHandler to handle the button click
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 
@@ -124,6 +127,10 @@ Have a look at following classes to see how this works:
 ChangelogBuilder builder = new ChangelogBuilder()
 	.withSorter(new ImportanceChangelogSorter()); // or provide a custom sorter
 ```
+
+## RAW vs XML resource
+
+If you do not use apostrophes you can use xml resources, otherwise you should use the raw resources. XML resources are faster (~10x), but they are precompiled and offer limited functionality. RAW resources are slower, but work better. Decide yourself. Use the RAW resource (which is used by default) if you don't know what you should use.
 
 ### TODO
 

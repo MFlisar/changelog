@@ -2,6 +2,7 @@ package com.michaelflisar.changelog;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Xml;
 
 import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
 import com.michaelflisar.changelog.classes.IChangelogSorter;
@@ -15,6 +16,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -23,11 +25,20 @@ import java.io.IOException;
 class ChangelogParserUtil {
 
     static Changelog readChangeLogFile(Context context, int changelogXmlFileId, IAutoVersionNameFormatter autoVersionNameFormatter, IChangelogSorter sorter) throws Exception {
-        Changelog changelog = null;
+        Changelog changelog;
 
         try {
+            XmlPullParser parser;
 
-            XmlPullParser parser = context.getResources().getXml(changelogXmlFileId);
+            String resourceType = context.getResources().getResourceTypeName(changelogXmlFileId);
+            if (resourceType.equals("raw")) {
+                InputStream in = context.getResources().openRawResource(changelogXmlFileId);
+                parser = Xml.newPullParser();
+                parser.setInput(in, null);
+            } else if (resourceType.equals("xml")) {
+                parser = context.getResources().getXml(changelogXmlFileId);
+            } else
+                throw new RuntimeException("Wrong changelog resource type, provide xml or raw resource!");
 
             // 1) Create Changelog object
             changelog = new Changelog();
