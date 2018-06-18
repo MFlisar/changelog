@@ -36,7 +36,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:1.0.3'
+    compile 'com.github.MFlisar:changelog:1.0.4'
 }
 ```
 
@@ -54,7 +54,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withMinVersionToShow(110)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
 	.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
 	.withManagedShowOnStart(true)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
-	.withRateButton(true) // enable this to show a "rate app" button in the dialog => the parent activity or target fragment should implement IChangelogRateHandler to handle the button click
+	.withRateButton(true) // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 

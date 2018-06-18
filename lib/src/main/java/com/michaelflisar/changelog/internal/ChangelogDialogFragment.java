@@ -2,7 +2,10 @@ package com.michaelflisar.changelog.internal;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +69,11 @@ public class ChangelogDialogFragment extends DialogFragment {
                     if (target != null) {
                         handled = onUserWantsToRate(target);
                     }
+
+                    if (handled)
+                        return;
+
+                    openPlayStore(getActivity());
                 }
             });
         }
@@ -87,6 +95,22 @@ public class ChangelogDialogFragment extends DialogFragment {
         if (target instanceof IChangelogRateHandler)
             return ((IChangelogRateHandler)target).onRateButtonClicked();
         return false;
+    }
+
+    private void openPlayStore(Context context) {
+        if (context == null)
+            return;
+
+        final String appPackageName = context.getPackageName();
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            context.startActivity(intent);
+        } catch (android.content.ActivityNotFoundException anfe) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            context.startActivity(intent);
+        }
     }
 
     @Override

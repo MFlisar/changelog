@@ -270,8 +270,9 @@ public class ChangelogBuilder implements Parcelable {
 
     /**
      * if enabled, a rate button is shown in the changelog dialog
-     * ATTENTION: the target fragment or the parent activity should implement {@link com.michaelflisar.changelog.classes.IChangelogRateHandler}, which will be called if the rate button is clicked
-     * ONLY WORKS WITH THE DIALOG MODE!
+     * DEFAULT BEHAVIOUR: clicking the button will open the play store link
+     * CUSTOM BEHAVIOUR: the target fragment or the parent activity should implement {@link com.michaelflisar.changelog.classes.IChangelogRateHandler}, which will be called if the rate button is clicked
+     * ONLY WORKS WITH DIALOG MODE!
      *
      * @param rateButton true, if the rate button should be shown, false otherwise
      * @return this
