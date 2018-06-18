@@ -81,6 +81,7 @@ public class ChangelogBuilder implements Parcelable {
         mAutoVersionNameFormatter = ParcelUtil.readParcelableInterface(in);
         mXmlFileId = in.readInt();
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
+        mRateButton = ParcelUtil.readBoolean(in);
     }
 
     @Override
@@ -98,6 +99,7 @@ public class ChangelogBuilder implements Parcelable {
         ParcelUtil.writeParcelableInterface(dest, mAutoVersionNameFormatter);
         dest.writeInt(mXmlFileId);
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
+        ParcelUtil.writeBoolean(dest, mRateButton);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
