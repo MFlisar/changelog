@@ -69,21 +69,21 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	<!-- simple example - no version name => will be generated based on verionCode: 100 => v1.00 -->
 	<release versionCode="120" versionName="v1.2" date="2018-03-04">
 		<info>Some info</info>
-		<new>Some improvement</new>
+		<new type="summary">Some improvement</new>
 		<bugfix>Some bugfix</bugfix>
 	</release>
 	
 	<!-- simple example - no filter -->
 	<release versionCode="120" versionName="v1.2" date="2018-03-04">
 		<info>Some info</info>
-		<new>Some improvement</new>
+		<new type="summary">Some improvement</new>
 		<bugfix>Some bugfix</bugfix>
 	</release>
 	
 	<!-- example with custom filter in release tag -->
 	<release versionCode="110" versionName="v1.1" date="2018-03-03" filter="dogs">
 		<info>Some dogs info - filter only set in release tag</info>
-		<new>Some dogs improvement - filter only set in release tag</new>
+		<new type="summary">Some dogs improvement - filter only set in release tag</new>
 		<bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
 	</release>
 	
