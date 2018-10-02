@@ -4,10 +4,10 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
 
-import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
-import com.michaelflisar.changelog.classes.IChangelogSorter;
-import com.michaelflisar.changelog.classes.Release;
-import com.michaelflisar.changelog.classes.Row;
+import com.michaelflisar.changelog.interfaces.IAutoVersionNameFormatter;
+import com.michaelflisar.changelog.interfaces.IChangelogSorter;
+import com.michaelflisar.changelog.items.ItemRelease;
+import com.michaelflisar.changelog.items.ItemRow;
 import com.michaelflisar.changelog.internal.ChangelogException;
 import com.michaelflisar.changelog.internal.Constants;
 import com.michaelflisar.changelog.tags.IChangelogTag;
@@ -105,7 +105,7 @@ class ChangelogParserUtil {
         }
 
         // 3) Create release element and add it to changelog object
-        Release release = new Release(
+        ItemRelease release = new ItemRelease(
                 versionName,
                 versionCode,
                 date,
@@ -127,7 +127,7 @@ class ChangelogParserUtil {
         }
     }
 
-    private static void readReleaseRowNode(IChangelogTag changelogTag, XmlPullParser parser, Changelog changelog, Release release) throws Exception {
+    private static void readReleaseRowNode(IChangelogTag changelogTag, XmlPullParser parser, Changelog changelog, ItemRelease release) throws Exception {
         // safety checks
         if (parser == null || changelog == null) {
             return;
@@ -136,6 +136,7 @@ class ChangelogParserUtil {
         // 1) real all attributes of row tag
         String title = parser.getAttributeValue(null, Constants.XML_ATTR_TITLE);
         String filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER);
+        boolean isSummary = Constants.XML_VALUE_SUMMARY.equalsIgnoreCase(parser.getAttributeValue(null, Constants.XML_ATTR_TYPE));
 
         // 2) read content (=text) of row tag
         String text = null;
@@ -148,7 +149,7 @@ class ChangelogParserUtil {
         }
 
         // 3) create row element and add it to release element
-        Row row = new Row(release, changelogTag, title, text, filter);
+        ItemRow row = new ItemRow(release, changelogTag, title, text, filter, isSummary);
         release.add(row);
     }
 }

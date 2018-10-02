@@ -70,7 +70,7 @@
                             android:id="@+id/cbCustomRenderer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Use custom layotu created by a custom item renderer"/>
+                            android:text="Use custom layout created by a custom item renderer"/>
 
                         <CheckBox
                             android:id="@+id/cbUseSorter"
@@ -83,6 +83,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Show rate button"/>
+
+                        <CheckBox
+                            android:id="@+id/cbShowSummary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Show a summary of new features and a 'Show more' Button"/>
 
                         <TextView
                             android:layout_width="match_parent"

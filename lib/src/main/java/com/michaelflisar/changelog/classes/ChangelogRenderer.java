@@ -13,12 +13,17 @@ import android.widget.TextView;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.R;
+import com.michaelflisar.changelog.interfaces.IChangelogRenderer;
+import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
+import com.michaelflisar.changelog.items.ItemMore;
+import com.michaelflisar.changelog.items.ItemRelease;
+import com.michaelflisar.changelog.items.ItemRow;
 
 /**
  * Created by flisar on 06.03.2018.
  */
 
-public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.ViewHolderHeader, ChangelogRenderer.ViewHolderRow> {
+public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.ViewHolderHeader, ChangelogRenderer.ViewHolderRow, ChangelogRenderer.ViewHolderMore> {
 
     public ChangelogRenderer() {
     }
@@ -33,9 +38,14 @@ public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.V
         return new ViewHolderRow(inflater.inflate(R.layout.changelog_row, parent, false), builder);
     }
 
+    @Override
+    public ViewHolderMore createMoreViewHolder(LayoutInflater inflater, ViewGroup parent, ChangelogBuilder builder) {
+        return new ViewHolderMore(inflater.inflate(R.layout.changelog_more, parent, false), builder);
+    }
+
 
     @Override
-    public void bindHeader(Context context, ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
+    public void bindHeader(ChangelogRecyclerViewAdapter adapter, Context context, ViewHolderHeader viewHolder, ItemRelease release, ChangelogBuilder builder) {
         if (release != null) {
             // 1) update version
             String version = release.getVersionName() != null ? release.getVersionName() : "";
@@ -52,7 +62,7 @@ public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.V
     }
 
     @Override
-    public void bindRow(Context context, ViewHolderRow viewHolder, Row row, ChangelogBuilder builder) {
+    public void bindRow(ChangelogRecyclerViewAdapter adapter, Context context, ViewHolderRow viewHolder, ItemRow row, ChangelogBuilder builder) {
         if (row != null) {
             // 1) update text
             String text = row.getText(context);
@@ -61,6 +71,16 @@ public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.V
 
             // 2) update bullet list item
             viewHolder.tvBullet.setVisibility(builder.isUseBulletList() ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void bindMore(ChangelogRecyclerViewAdapter adapter, Context context, ViewHolderMore viewHolder, ItemMore more, ChangelogBuilder builder) {
+        if (more != null) {
+            viewHolder.tvButton.setOnClickListener(v -> {
+                int pos = viewHolder.getAdapterPosition();
+                adapter.replaceMoreItem(pos, more.getItems());
+            });
         }
     }
 
@@ -106,6 +126,16 @@ public class ChangelogRenderer implements IChangelogRenderer<ChangelogRenderer.V
 
         public TextView getTvBullet() {
             return tvBullet;
+        }
+    }
+
+    public static class ViewHolderMore extends RecyclerView.ViewHolder {
+
+        private final TextView tvButton;
+
+        public ViewHolderMore(View itemView, ChangelogBuilder builder) {
+            super(itemView);
+            tvButton = itemView.findViewById(R.id.tvButton);
         }
     }
 

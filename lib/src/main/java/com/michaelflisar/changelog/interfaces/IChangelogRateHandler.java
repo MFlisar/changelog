@@ -1,4 +1,4 @@
-package com.michaelflisar.changelog.classes;
+package com.michaelflisar.changelog.interfaces;
 
 public interface IChangelogRateHandler {
     boolean onRateButtonClicked();

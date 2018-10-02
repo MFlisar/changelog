@@ -20,6 +20,10 @@ public class Constants {
     public static final String XML_ATTR_DATE = "date";
     public static final String XML_ATTR_FILTER = "filter";
     public static final String XML_ATTR_TITLE = "title";
+    public static final String XML_ATTR_TYPE = "type";
+
+    // XML Values
+    public static final String XML_VALUE_SUMMARY = "summary";
 }
 
 // TODO: Beispiel

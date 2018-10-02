@@ -9,8 +9,9 @@ import android.util.TypedValue;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.classes.ChangelogRenderer;
-import com.michaelflisar.changelog.classes.Release;
-import com.michaelflisar.changelog.classes.Row;
+import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
+import com.michaelflisar.changelog.items.ItemRelease;
+import com.michaelflisar.changelog.items.ItemRow;
 
 /**
  * Created by flisar on 07.03.2018.
@@ -21,12 +22,13 @@ import com.michaelflisar.changelog.classes.Row;
 public class ExampleCustomRenderer extends ChangelogRenderer {
 
     @Override
-    public void bindHeader(Context context, ViewHolderHeader viewHolder, Release release, ChangelogBuilder builder) {
+    public void bindHeader(ChangelogRecyclerViewAdapter adapter, Context context, ViewHolderHeader viewHolder, ItemRelease release, ChangelogBuilder builder) {
+
         //--------------
         // default rendering
         //--------------
 
-        super.bindHeader(context, viewHolder, release, builder);
+        super.bindHeader(adapter, context, viewHolder, release, builder);
 
         //--------------
         // Customising
@@ -45,11 +47,13 @@ public class ExampleCustomRenderer extends ChangelogRenderer {
     }
 
     @Override
-    public void bindRow(Context context, ViewHolderRow viewHolder, Row row, ChangelogBuilder builder) {
+    public void bindRow(ChangelogRecyclerViewAdapter adapter, Context context, ViewHolderRow viewHolder, ItemRow row, ChangelogBuilder builder) {
+
         //--------------
         // default rendering
         //--------------
-        super.bindRow(context, viewHolder, row, builder);
+
+        super.bindRow(adapter, context, viewHolder, row, builder);
 
         //--------------
         // Customising

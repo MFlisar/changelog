@@ -1,6 +1,8 @@
-package com.michaelflisar.changelog.classes;
+package com.michaelflisar.changelog.items;
 
 import com.michaelflisar.changelog.R;
+import com.michaelflisar.changelog.interfaces.IHeader;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 /**
  * Created by flisar on 05.03.2018.
  */
-public class Release implements IRecyclerViewItem, IHeader {
+public class ItemRelease implements IHeader {
     private final String mVersionName;
     private final int mVersionCode;
     private final String mDate;
@@ -33,13 +35,13 @@ public class Release implements IRecyclerViewItem, IHeader {
         return mFilter;
     }
 
-    public final List<Row> getRows() {
+    public final List<ItemRow> getRows() {
         return mRows;
     }
 
-    private final List<Row> mRows;
+    private final List<ItemRow> mRows;
 
-    public Release(String versionName, int versionCode, String date, String filter) {
+    public ItemRelease(String versionName, int versionCode, String date, String filter) {
 
         mRows = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class Release implements IRecyclerViewItem, IHeader {
         mFilter = filter;
     }
 
-    public void add(Row row) {
+    public void add(ItemRow row) {
         mRows.add(row);
     }
 

@@ -3,6 +3,8 @@ package com.michaelflisar.changelog.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.michaelflisar.changelog.interfaces.IChangelogSorter;
+import com.michaelflisar.changelog.items.ItemRow;
 import com.michaelflisar.changelog.tags.ChangelogTagBugfix;
 import com.michaelflisar.changelog.tags.ChangelogTagInfo;
 import com.michaelflisar.changelog.tags.ChangelogTagNew;
@@ -18,7 +20,7 @@ public class ImportanceChangelogSorter implements IChangelogSorter {
     }
 
     @Override
-    public int compare(Row o1, Row o2) {
+    public int compare(ItemRow o1, ItemRow o2) {
         return ((Integer) getTagOrderNumber(o1.getTag())).compareTo(getTagOrderNumber(o2.getTag()));
     }
 

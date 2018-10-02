@@ -3,7 +3,11 @@ package com.michaelflisar.changelog.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.michaelflisar.changelog.interfaces.IChangelogEntry;
+import com.michaelflisar.changelog.interfaces.IChangelogFilter;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
+import com.michaelflisar.changelog.items.ItemRow;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -37,9 +41,9 @@ public class ChangelogFilter implements IChangelogFilter {
     public boolean checkFilter(IRecyclerViewItem item) {
 
         ChangelogRecyclerViewAdapter.Type type = item.getRecyclerViewType();
-        String filter = item.getFilter();
+        String filter = item instanceof IChangelogEntry ? ((IChangelogEntry)item).getFilter() : null;
         if (filter == null && mInheritReleaseFilterToRows && type == ChangelogRecyclerViewAdapter.Type.Row) {
-            filter = ((Row) item).getRelease().getFilter();
+            filter = ((ItemRow) item).getRelease().getFilter();
         }
         if (filter == null) {
             filter = "";

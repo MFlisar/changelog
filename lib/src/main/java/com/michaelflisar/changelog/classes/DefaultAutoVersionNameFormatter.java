@@ -3,6 +3,8 @@ package com.michaelflisar.changelog.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.michaelflisar.changelog.interfaces.IAutoVersionNameFormatter;
+
 /**
  * Created by flisar on 07.03.2018.
  */

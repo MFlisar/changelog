@@ -3,13 +3,13 @@ package com.michaelflisar.changelog.internal;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
-import com.michaelflisar.changelog.classes.IRecyclerViewItem;
-import com.michaelflisar.changelog.classes.Release;
-import com.michaelflisar.changelog.classes.Row;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
+import com.michaelflisar.changelog.items.ItemMore;
+import com.michaelflisar.changelog.items.ItemRelease;
+import com.michaelflisar.changelog.items.ItemRow;
 
 import java.util.List;
 
@@ -21,7 +21,8 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     public enum Type {
         Row,
-        Header
+        Header,
+        More
     }
 
     private final Context mContext;
@@ -45,21 +46,38 @@ public class ChangelogRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         notifyDataSetChanged();
     }
 
+    public void replaceMoreItem(int moreIndex, List<IRecyclerViewItem> items) {
+        mItems.remove(moreIndex);
+        if (items.size() == 0) {
+            notifyItemRemoved(moreIndex);
+        } else {
+            mItems.addAll(moreIndex, items);
+            notifyItemChanged(moreIndex);
+            notifyItemRangeInserted(moreIndex + 1, items.size() - 1);
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == Type.Header.ordinal()) {
             return mBuilder.getRenderer().createHeaderViewHolder(mInflater, parent, mBuilder);
-        } else {
+        } else if (viewType == Type.Row.ordinal()) {
             return mBuilder.getRenderer().createRowViewHolder(mInflater, parent, mBuilder);
+        } else if (viewType == Type.More.ordinal()) {
+            return mBuilder.getRenderer().createMoreViewHolder(mInflater, parent, mBuilder);
+        } else {
+            throw new RuntimeException(String.format("Type not handled: %s", viewType));
         }
     }
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-        if (isHeader(position)) {
-            mBuilder.getRenderer().bindHeader(mContext, viewHolder, (Release) getItem(position), mBuilder);
-        } else {
-            mBuilder.getRenderer().bindRow(mContext, viewHolder, (Row) getItem(position), mBuilder);
+        if (getItem(position).getRecyclerViewType() == Type.Header) {
+            mBuilder.getRenderer().bindHeader(this, mContext, viewHolder, (ItemRelease) getItem(position), mBuilder);
+        } else if (getItem(position).getRecyclerViewType() == Type.Row) {
+            mBuilder.getRenderer().bindRow(this, mContext, viewHolder, (ItemRow) getItem(position), mBuilder);
+        } else if (getItem(position).getRecyclerViewType() == Type.More) {
+            mBuilder.getRenderer().bindMore(this, mContext, viewHolder, (ItemMore) getItem(position), mBuilder);
         }
     }
 

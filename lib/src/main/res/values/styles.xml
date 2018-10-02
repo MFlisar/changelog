@@ -28,4 +28,12 @@
         <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
     </style>
 
+    <style name="ChangelogMore" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_gravity">right|end</item>
+    </style>
+
 </resources>

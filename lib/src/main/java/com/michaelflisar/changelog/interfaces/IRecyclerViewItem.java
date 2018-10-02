@@ -1,4 +1,4 @@
-package com.michaelflisar.changelog.classes;
+package com.michaelflisar.changelog.interfaces;
 
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 
@@ -10,8 +10,4 @@ public interface IRecyclerViewItem {
     // RecyclerView
     ChangelogRecyclerViewAdapter.Type getRecyclerViewType();
     int getLayoutId();
-
-    // Changelog
-    int getVersionCode();
-    String getFilter();
 }

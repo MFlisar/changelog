@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogUtil;
 import com.michaelflisar.changelog.R;
-import com.michaelflisar.changelog.classes.IChangelogRateHandler;
+import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
 
 /**
  * Created by flisar on 05.03.2018.

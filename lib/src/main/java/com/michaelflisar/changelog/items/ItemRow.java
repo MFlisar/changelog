@@ -1,23 +1,26 @@
-package com.michaelflisar.changelog.classes;
+package com.michaelflisar.changelog.items;
 
 import android.content.Context;
 
 import com.michaelflisar.changelog.R;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
+import com.michaelflisar.changelog.interfaces.IRow;
 import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 import com.michaelflisar.changelog.tags.IChangelogTag;
 
 /**
  * Created by flisar on 05.03.2018.
  */
-public class Row implements IRecyclerViewItem {
-    private final Release mRelease;
+public class ItemRow implements IRow {
+    private final ItemRelease mRelease;
     private final IChangelogTag mTag;
 
     private String mTitle;
     private String mText;
     private String mFilter;
+    private final boolean mIsSummary;
 
-    public final Release getRelease() {
+    public final ItemRelease getRelease() {
         return mRelease;
     }
 
@@ -41,11 +44,16 @@ public class Row implements IRecyclerViewItem {
     }
 
     @Override
+    public boolean isSummary() {
+        return mIsSummary;
+    }
+
+    @Override
     public final int getVersionCode() {
         return mRelease.getVersionCode();
     }
 
-    public Row(Release release, IChangelogTag tag, String title, String text, String filter) {
+    public ItemRow(ItemRelease release, IChangelogTag tag, String title, String text, String filter, boolean isSummary) {
         mRelease = release;
         mTag = tag;
         mTitle = title;
@@ -54,6 +62,7 @@ public class Row implements IRecyclerViewItem {
         }
         mText = text;
         mFilter = filter;
+        mIsSummary = isSummary;
     }
 
     @Override

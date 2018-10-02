@@ -10,9 +10,11 @@ import com.michaelflisar.changelog.R;
 
 public class ChangelogTagBugfix implements IChangelogTag {
 
+    public static final String TAG = "bugfix";
+
     @Override
     public String getXMLTagName() {
-        return "bugfix";
+        return TAG;
     }
 
     @Override

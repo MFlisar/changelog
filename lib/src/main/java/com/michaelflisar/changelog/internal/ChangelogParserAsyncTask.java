@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.michaelflisar.changelog.ChangelogBuilder;
-import com.michaelflisar.changelog.classes.IRecyclerViewItem;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
 
 import java.util.List;
 

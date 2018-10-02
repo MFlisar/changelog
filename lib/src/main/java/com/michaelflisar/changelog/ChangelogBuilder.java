@@ -11,11 +11,12 @@ import android.util.Log;
 
 import com.michaelflisar.changelog.classes.ChangelogRenderer;
 import com.michaelflisar.changelog.classes.DefaultAutoVersionNameFormatter;
-import com.michaelflisar.changelog.classes.IAutoVersionNameFormatter;
-import com.michaelflisar.changelog.classes.IChangelogFilter;
-import com.michaelflisar.changelog.classes.IChangelogRenderer;
-import com.michaelflisar.changelog.classes.IChangelogSorter;
-import com.michaelflisar.changelog.classes.IRecyclerViewItem;
+import com.michaelflisar.changelog.interfaces.IAutoVersionNameFormatter;
+import com.michaelflisar.changelog.interfaces.IChangelogFilter;
+import com.michaelflisar.changelog.interfaces.IChangelogRenderer;
+import com.michaelflisar.changelog.interfaces.IChangelogSorter;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
+import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
 import com.michaelflisar.changelog.internal.ChangelogActivity;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
 import com.michaelflisar.changelog.internal.ChangelogPreferenceUtil;
@@ -43,6 +44,7 @@ public class ChangelogBuilder implements Parcelable {
     private IChangelogRenderer mRenderer;
     private IAutoVersionNameFormatter mAutoVersionNameFormatter;
     private boolean mRateButton;
+    private boolean mShowSummary;
 
     private int mXmlFileId;
 
@@ -61,11 +63,13 @@ public class ChangelogBuilder implements Parcelable {
         mSorter = null;
         mRenderer = new ChangelogRenderer();
         mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
-        // layout id
+        // file id
         mXmlFileId = R.raw.changelog;
         // manage versions to show in preferences
         mManagedShowOnStart = false;
         mRateButton = false;
+        // summary
+        mShowSummary = false;
     }
 
     // ------------------------
@@ -82,6 +86,7 @@ public class ChangelogBuilder implements Parcelable {
         mXmlFileId = in.readInt();
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
         mRateButton = ParcelUtil.readBoolean(in);
+        mShowSummary = ParcelUtil.readBoolean(in);
     }
 
     @Override
@@ -100,6 +105,7 @@ public class ChangelogBuilder implements Parcelable {
         dest.writeInt(mXmlFileId);
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
         ParcelUtil.writeBoolean(dest, mRateButton);
+        ParcelUtil.writeBoolean(dest, mShowSummary);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -172,6 +178,13 @@ public class ChangelogBuilder implements Parcelable {
         return mRateButton;
     }
 
+    /*
+     * @return true if a summary should be shown, false otherwise
+     */
+    public final boolean isShowSummary() {
+        return mShowSummary;
+    }
+
     // -----------------
     // Setter
     // -----------------
@@ -232,7 +245,7 @@ public class ChangelogBuilder implements Parcelable {
     }
 
     /**
-     * provide a custom auto version name formatter class or @{@link com.michaelflisar.changelog.classes.IAutoVersionNameFormatter}
+     * provide a custom auto version name formatter class or @{@link IAutoVersionNameFormatter}
      * to format version codes as desired if they are not provided in the xml
      *
      * @param versionNameFormatter the formatter object that will handle deriving version name from version number
@@ -271,7 +284,7 @@ public class ChangelogBuilder implements Parcelable {
     /**
      * if enabled, a rate button is shown in the changelog dialog
      * DEFAULT BEHAVIOUR: clicking the button will open the play store link
-     * CUSTOM BEHAVIOUR: the target fragment or the parent activity should implement {@link com.michaelflisar.changelog.classes.IChangelogRateHandler}, which will be called if the rate button is clicked
+     * CUSTOM BEHAVIOUR: the target fragment or the parent activity should implement {@link IChangelogRateHandler}, which will be called if the rate button is clicked
      * ONLY WORKS WITH DIALOG MODE!
      *
      * @param rateButton true, if the rate button should be shown, false otherwise
@@ -279,6 +292,18 @@ public class ChangelogBuilder implements Parcelable {
      */
     public ChangelogBuilder withRateButton(boolean rateButton) {
         mRateButton = rateButton;
+        return this;
+    }
+
+    /**
+     * use this to show a summary and a "show more" button instead of showing all entries
+     * ATTENTION: Summary entries will ALWAYS be shown before other entries; sorting is applied to entries and the rest individually!
+     *
+     * @param showSummary true, if you want to show a summary, false otherwise
+     * @return this
+     */
+    public ChangelogBuilder withSummary(boolean showSummary) {
+        mShowSummary = showSummary;
         return this;
     }
 
@@ -393,7 +418,7 @@ public class ChangelogBuilder implements Parcelable {
     public List<IRecyclerViewItem> getRecyclerViewItems(Context context) {
         Changelog changelog = build(context);
         List<IRecyclerViewItem> items = changelog.getAllRecyclerViewItems();
-        items = ChangelogUtil.filterItems(mMinVersionToShow, mFilter, items);
+        items = ChangelogUtil.filterItems(mMinVersionToShow, mFilter, items, mShowSummary);
         return items;
     }
 

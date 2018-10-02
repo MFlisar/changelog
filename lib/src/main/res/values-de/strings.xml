@@ -6,5 +6,6 @@
     <string name ="changelog_version_title">%1$s</string>
     <string name ="changelog_bug_prefix">[font color="#FF0000"][b]Bug: [/b][/font]</string>
     <string name ="changelog_bug_improvement">[font color="#009933"][b]Neu: [/b][/font]</string>
+    <string name="changelog_show_more">Mehr anzeigen</string>
 
 </resources>

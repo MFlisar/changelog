@@ -1,10 +1,10 @@
 <changelog>
     <release versionCode="120" date="2018-03-04">
         <info>Some info 1 - apostrophe test: it's weird, but apostrophes do not work in precompiled xml files placed in xml resources!</info>
-        <new>Some improvement 1</new>
+        <new type="summary">Some improvement 1</new>
         <bugfix>Some bugfix 1</bugfix>
         <info>Some info 2</info>
-        <new>Some improvement 2</new>
+        <new type="summary">Some improvement 2</new>
         <bugfix>Some bugfix 2</bugfix>
         <info>Some info 3</info>
         <new>Some improvement 3</new>
@@ -13,12 +13,12 @@
     </release>
     <release versionCode="115" date="2018-03-04">
         <info>Some info</info>
-        <new>Some improvement</new>
+        <new type="summary">Some improvement</new>
         <bugfix>Some bugfix</bugfix>
     </release>
     <release versionCode="110" versionName="Version 1.10" date="2018-03-03" filter="dogs">
         <info>Some dogs info - filter only set in release tag</info>
-        <new>Some dogs improvement - filter only set in release tag</new>
+        <new type="summary">Some dogs improvement - filter only set in release tag</new>
         <bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
     </release>
     <release versionCode="105" versionName="Version 1.05" date="2018-03-02" filter="cats">

@@ -1,8 +1,8 @@
 package com.michaelflisar.changelog;
 
-import com.michaelflisar.changelog.classes.IChangelogSorter;
-import com.michaelflisar.changelog.classes.IRecyclerViewItem;
-import com.michaelflisar.changelog.classes.Release;
+import com.michaelflisar.changelog.interfaces.IChangelogSorter;
+import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
+import com.michaelflisar.changelog.items.ItemRelease;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Changelog {
 
-    private final List<Release> mReleases;
+    private final List<ItemRelease> mReleases;
 
     Changelog() {
         mReleases = new ArrayList<>();
@@ -22,17 +22,17 @@ public class Changelog {
 
     public final void sort(IChangelogSorter sorter) {
         if (sorter != null) {
-            for (Release r : mReleases) {
+            for (ItemRelease r : mReleases) {
                 Collections.sort(r.getRows(), sorter);
             }
         }
     }
 
-    final void add(Release release) {
+    final void add(ItemRelease release) {
         mReleases.add(release);
     }
 
-    public final List<Release> getReleases() {
+    public final List<ItemRelease> getReleases() {
         return mReleases;
     }
 

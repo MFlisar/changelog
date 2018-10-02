@@ -8,9 +8,11 @@ import android.content.Context;
 
 public class ChangelogTagInfo implements IChangelogTag {
 
+    public static final String TAG = "info";
+
     @Override
     public String getXMLTagName() {
-        return "info";
+        return TAG;
     }
 
     @Override
