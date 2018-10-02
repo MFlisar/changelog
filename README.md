@@ -38,7 +38,7 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:1.0.4'
+    compile 'com.github.MFlisar:changelog:1.0.5'
 }
 ```
 
