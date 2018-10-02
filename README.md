@@ -17,6 +17,7 @@ This is a simple builder based changelog library that shows a changelog in a `Re
   * automatic and **custom sorting**
 * supports raw and xml resources, default resource name is `changelog.xml` in raw folder
 * supports an optional rate app button
+* supports summaries with a "show more" button
 
 **Examples - activity, dialog, automatically sorted activity, custom layout**
 
@@ -24,6 +25,7 @@ This is a simple builder based changelog library that shows a changelog in a `Re
 ![Changelog dialog](https://github.com/MFlisar/changelog/blob/master/images/dialog.png)
 ![Changelog dialog-sorted](https://github.com/MFlisar/changelog/blob/master/images/activity-sorted.png)
 ![Changelog custom](https://github.com/MFlisar/changelog/blob/master/images/custom.png)
+![Changelog custom](https://github.com/MFlisar/changelog/blob/master/images/summary.png)
  
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
@@ -55,6 +57,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
 	.withManagedShowOnStart(true)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
 	.withRateButton(true) // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
+	.withSummary(true) // enable this to show a summary and a "show more" button
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 
@@ -136,7 +139,6 @@ If you do not use apostrophes you can use xml resources, otherwise you should us
 
 Some features are probably nice for some people, I will add them if I need them. Feel free to contribute, I already made some issues for main missing features:	
 * support online source for xml - https://github.com/MFlisar/changelog/issues/1
-* support show changelog summaries - https://github.com/MFlisar/changelog/issues/3
 * add some setup features to the default `ChangelogRenderer` (colors, text size, ...)
 
 ### Credits
