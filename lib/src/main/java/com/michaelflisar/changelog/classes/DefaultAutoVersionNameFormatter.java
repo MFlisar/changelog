@@ -11,20 +11,39 @@ import com.michaelflisar.changelog.interfaces.IAutoVersionNameFormatter;
 
 public class DefaultAutoVersionNameFormatter implements IAutoVersionNameFormatter {
 
-    public DefaultAutoVersionNameFormatter() {
+    public enum Type {
+        MajorMinor,
+        MajorMinorPatch
+    }
+
+    private Type mType;
+    private String mAddon;
+
+    public DefaultAutoVersionNameFormatter(Type type, String addon) {
+        mType = type;
+        mAddon = addon;
     }
 
     @Override
     public String deriveVersionName(int versionCode) {
-        // should not happen but we must handle this
-        if (versionCode < 0) {
-            return "v" + versionCode;
+        if (versionCode >= 0) {
+            switch (mType) {
+                case MajorMinor: {
+                    int major = (int) Math.floor((float) versionCode / 100f);
+                    int minor = versionCode - major * 100;
+                    return "v" + major + "." + String.format("%02d", minor) + mAddon;
+                }
+                case MajorMinorPatch: {
+                    int major = (int) Math.floor((double) ((float) versionCode / 10000f));
+                    int minor = (int) Math.floor((double) ((versionCode - major * 10000f) / 100f));
+                    int patch = versionCode - major * 10000 - minor * 100;
+                    return "v" + major + "." + String.format("%02d", minor) + "." + String.format("%02d", patch) + mAddon;
+                }
+            }
         }
 
-        int versionMain = (int) Math.floor((float) versionCode / 100f);
-        int versionDetails = versionCode - versionMain * 100;
-
-        return "v" + versionMain + "." + String.format("%02d", versionDetails);
+        // should not happen but we must handle this
+        return "v" + versionCode + mAddon;
     }
 
     // ------------------------
@@ -32,6 +51,8 @@ public class DefaultAutoVersionNameFormatter implements IAutoVersionNameFormatte
     // ------------------------
 
     DefaultAutoVersionNameFormatter(Parcel in) {
+        mType = Type.values()[in.readInt()];
+        mAddon = in.readString();
     }
 
     @Override
@@ -41,7 +62,8 @@ public class DefaultAutoVersionNameFormatter implements IAutoVersionNameFormatte
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeInt(mType.ordinal());
+        dest.writeString(mAddon);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

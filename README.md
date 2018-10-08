@@ -101,6 +101,15 @@ ChangelogBuilder builder = new ChangelogBuilder()
 
 ### Advanced usage
 
+#### Custom version formatter
+
+Simply provide a custom formatter or use the default one with your desired parameters like e.g.
+
+```java
+ChangelogBuilder builder = new ChangelogBuilder()
+	.withVersionNameFormatter(new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "b")) // Will format versions like "1.0b"
+```
+
 #### Custom layouts
 
 Simply provide custom a custom renderer (very simply interface), derive it from the default `ChangelogRenderer` to only adjust small things.

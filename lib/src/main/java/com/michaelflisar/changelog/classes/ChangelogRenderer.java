@@ -3,7 +3,6 @@ package com.michaelflisar.changelog.classes;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -18,6 +17,8 @@ import com.michaelflisar.changelog.internal.ChangelogRecyclerViewAdapter;
 import com.michaelflisar.changelog.items.ItemMore;
 import com.michaelflisar.changelog.items.ItemRelease;
 import com.michaelflisar.changelog.items.ItemRow;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by flisar on 06.03.2018.

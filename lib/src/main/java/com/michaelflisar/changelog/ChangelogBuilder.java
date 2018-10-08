@@ -4,19 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.michaelflisar.changelog.classes.ChangelogRenderer;
 import com.michaelflisar.changelog.classes.DefaultAutoVersionNameFormatter;
 import com.michaelflisar.changelog.interfaces.IAutoVersionNameFormatter;
 import com.michaelflisar.changelog.interfaces.IChangelogFilter;
+import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
 import com.michaelflisar.changelog.interfaces.IChangelogRenderer;
 import com.michaelflisar.changelog.interfaces.IChangelogSorter;
 import com.michaelflisar.changelog.interfaces.IRecyclerViewItem;
-import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
 import com.michaelflisar.changelog.internal.ChangelogActivity;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
 import com.michaelflisar.changelog.internal.ChangelogPreferenceUtil;
@@ -26,6 +23,10 @@ import com.michaelflisar.changelog.internal.ParcelUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -62,7 +63,7 @@ public class ChangelogBuilder implements Parcelable {
         mFilter = null;
         mSorter = null;
         mRenderer = new ChangelogRenderer();
-        mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter();
+        mAutoVersionNameFormatter = new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "");
         // file id
         mXmlFileId = R.raw.changelog;
         // manage versions to show in preferences
@@ -335,7 +336,7 @@ public class ChangelogBuilder implements Parcelable {
     public void buildAndSetup(RecyclerView recyclerView) {
         List<IRecyclerViewItem> items = getRecyclerViewItems(recyclerView.getContext());
         ChangelogRecyclerViewAdapter adapter = new ChangelogRecyclerViewAdapter(recyclerView.getContext(), this, items);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 
@@ -366,7 +367,7 @@ public class ChangelogBuilder implements Parcelable {
      * and show it in an activity
      *
      * @param appThemeHasActionBar true, if the apps theme contains a toolbar, false if not
-     * @param context the context to use to start the activity
+     * @param context              the context to use to start the activity
      */
     public void buildAndStartActivity(Context context, boolean appThemeHasActionBar) {
         buildAndStartActivity(context, null, appThemeHasActionBar);
@@ -376,8 +377,8 @@ public class ChangelogBuilder implements Parcelable {
      * build the changelog class which will read the xml file
      * and show it in an activity
      *
-     * @param context the context to use to start the activity
-     * @param theme   theme id or null for light default theme
+     * @param context           the context to use to start the activity
+     * @param theme             theme id or null for light default theme
      * @param themeHasActionBar true, if the theme (or the app theme if no theme is provided) contains a toolbar, false if not
      */
     public void buildAndStartActivity(Context context, Integer theme, boolean themeHasActionBar) {

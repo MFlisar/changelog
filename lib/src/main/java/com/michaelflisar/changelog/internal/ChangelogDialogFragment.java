@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -16,6 +14,9 @@ import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogUtil;
 import com.michaelflisar.changelog.R;
 import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by flisar on 05.03.2018.
@@ -62,16 +63,18 @@ public class ChangelogDialogFragment extends DialogFragment {
                         handled = onUserWantsToRate(target);
                     }
 
-                    if (handled)
+                    if (handled) {
                         return;
+                    }
 
                     target = getActivity();
                     if (target != null) {
                         handled = onUserWantsToRate(target);
                     }
 
-                    if (handled)
+                    if (handled) {
                         return;
+                    }
 
                     openPlayStore(getActivity());
                 }
@@ -92,14 +95,16 @@ public class ChangelogDialogFragment extends DialogFragment {
     }
 
     private boolean onUserWantsToRate(Object target) {
-        if (target instanceof IChangelogRateHandler)
-            return ((IChangelogRateHandler)target).onRateButtonClicked();
+        if (target instanceof IChangelogRateHandler) {
+            return ((IChangelogRateHandler) target).onRateButtonClicked();
+        }
         return false;
     }
 
     private void openPlayStore(Context context) {
-        if (context == null)
+        if (context == null) {
             return;
+        }
 
         final String appPackageName = context.getPackageName();
         try {

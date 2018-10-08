@@ -3,9 +3,6 @@ package com.michaelflisar.changelog.internal;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -13,6 +10,10 @@ import android.widget.ProgressBar;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogUtil;
 import com.michaelflisar.changelog.R;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by flisar on 06.03.2018.

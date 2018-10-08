@@ -1,7 +1,6 @@
 package com.michaelflisar.changelog.internal;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -12,6 +11,8 @@ import com.michaelflisar.changelog.items.ItemRelease;
 import com.michaelflisar.changelog.items.ItemRow;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by flisar on 05.03.2018.
