@@ -58,6 +58,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withManagedShowOnStart(true)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
 	.withRateButton(true) // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
 	.withSummary(true) // enable this to show a summary and a "show more" button
+	.withVersionNameFormatter(new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "b")) // Will format a version 100 like "1.0b", default is without the b
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 
@@ -100,15 +101,6 @@ ChangelogBuilder builder = new ChangelogBuilder()
 ```
 
 ### Advanced usage
-
-#### Custom version formatter
-
-Simply provide a custom formatter or use the default one with your desired parameters like e.g.
-
-```java
-ChangelogBuilder builder = new ChangelogBuilder()
-	.withVersionNameFormatter(new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "b")) // Will format versions like "1.0b"
-```
 
 #### Custom layouts
 
