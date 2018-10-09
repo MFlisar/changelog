@@ -51,7 +51,12 @@ public class ChangelogActivity extends AppCompatActivity {
             toolbar.setVisibility(View.GONE);
         }
 
-        getSupportActionBar().setTitle(getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(this)));
+        String title = mBuilder.getCustomTitle();
+        if (title == null) {
+            title = getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(this));
+        }
+
+        getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ProgressBar pb = findViewById(R.id.pbLoading);

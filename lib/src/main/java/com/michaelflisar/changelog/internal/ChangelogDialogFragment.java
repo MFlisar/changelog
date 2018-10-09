@@ -44,8 +44,12 @@ public class ChangelogDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String title = mBuilder.getCustomTitle();
+        if (title == null) {
+            title = getContext().getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(getContext()));
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(getContext().getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(getContext())))
+                .setTitle(title)
                 .setPositiveButton(getContext().getString(R.string.changelog_dialog_button), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

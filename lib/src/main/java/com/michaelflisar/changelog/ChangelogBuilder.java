@@ -46,6 +46,7 @@ public class ChangelogBuilder implements Parcelable {
     private IAutoVersionNameFormatter mAutoVersionNameFormatter;
     private boolean mRateButton;
     private boolean mShowSummary;
+    private String mCustomTitle;
 
     private int mXmlFileId;
 
@@ -71,6 +72,8 @@ public class ChangelogBuilder implements Parcelable {
         mRateButton = false;
         // summary
         mShowSummary = false;
+        // customisation
+        mCustomTitle = null;
     }
 
     // ------------------------
@@ -88,6 +91,7 @@ public class ChangelogBuilder implements Parcelable {
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
         mRateButton = ParcelUtil.readBoolean(in);
         mShowSummary = ParcelUtil.readBoolean(in);
+        mCustomTitle = in.readString();
     }
 
     @Override
@@ -107,6 +111,7 @@ public class ChangelogBuilder implements Parcelable {
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
         ParcelUtil.writeBoolean(dest, mRateButton);
         ParcelUtil.writeBoolean(dest, mShowSummary);
+        dest.writeString(mCustomTitle);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -184,6 +189,13 @@ public class ChangelogBuilder implements Parcelable {
      */
     public final boolean isShowSummary() {
         return mShowSummary;
+    }
+
+    /*
+     * @return a custom title string or null
+     */
+    public final String getCustomTitle() {
+        return mCustomTitle;
     }
 
     // -----------------
@@ -305,6 +317,17 @@ public class ChangelogBuilder implements Parcelable {
      */
     public ChangelogBuilder withSummary(boolean showSummary) {
         mShowSummary = showSummary;
+        return this;
+    }
+
+    /**
+     * provide a custom activity/dialog title
+     *
+     * @param title the custom activity/dialog title
+     * @return this
+     */
+    public ChangelogBuilder withTitle(String title) {
+        mCustomTitle = title;
         return this;
     }
 

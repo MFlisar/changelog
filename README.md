@@ -59,6 +59,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withRateButton(true) // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
 	.withSummary(true) // enable this to show a summary and a "show more" button
 	.withVersionNameFormatter(new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "b")) // Will format a version 100 like "1.0b", default is without the b
+	.withTitle("Some custom title") // provide a custom title if desired, default one is "Changelog <VERSION>"
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 
