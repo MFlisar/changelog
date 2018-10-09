@@ -3,7 +3,6 @@ package com.michaelflisar.changelog.internal;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,44 +43,46 @@ public class ChangelogDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         String title = mBuilder.getCustomTitle();
         if (title == null) {
             title = getContext().getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(getContext()));
         }
+        String okButtonText = mBuilder.getCustomOkLabel();
+        String rateButtonText = mBuilder.getCustomRateLabel();
+        if (okButtonText == null) {
+            okButtonText = getContext().getString(R.string.changelog_dialog_button);
+        }
+        if (rateButtonText == null) {
+            rateButtonText = getContext().getString(R.string.changelog_dialog_rate);
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(title)
-                .setPositiveButton(getContext().getString(R.string.changelog_dialog_button), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton(okButtonText, (dialog, which) -> dialog.dismiss());
 
         if (mBuilder.isUseRateButton()) {
-            builder.setNeutralButton(getContext().getString(R.string.changelog_dialog_rate), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    boolean handled = false;
-                    Object target = getTargetFragment();
-                    if (target != null) {
-                        handled = onUserWantsToRate(target);
-                    }
-
-                    if (handled) {
-                        return;
-                    }
-
-                    target = getActivity();
-                    if (target != null) {
-                        handled = onUserWantsToRate(target);
-                    }
-
-                    if (handled) {
-                        return;
-                    }
-
-                    openPlayStore(getActivity());
+            builder.setNeutralButton(rateButtonText, (dialog, which) -> {
+                boolean handled = false;
+                Object target = getTargetFragment();
+                if (target != null) {
+                    handled = onUserWantsToRate(target);
                 }
+
+                if (handled) {
+                    return;
+                }
+
+                target = getActivity();
+                if (target != null) {
+                    handled = onUserWantsToRate(target);
+                }
+
+                if (handled) {
+                    return;
+                }
+
+                openPlayStore(getActivity());
             });
         }
 

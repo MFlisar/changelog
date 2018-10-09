@@ -60,6 +60,8 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withSummary(true) // enable this to show a summary and a "show more" button
 	.withVersionNameFormatter(new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "b")) // Will format a version 100 like "1.0b", default is without the b
 	.withTitle("Some custom title") // provide a custom title if desired, default one is "Changelog <VERSION>"
+	.withOkButtonLabel("Back") // provide a custom ok button text if desired, default one is "OK"
+	.withRateButtonLabel("Wanna rate?") // provide a custom rate button text if desired, default one is "Rate"
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
 ```
 

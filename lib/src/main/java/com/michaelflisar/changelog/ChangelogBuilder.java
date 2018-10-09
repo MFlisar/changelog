@@ -47,6 +47,8 @@ public class ChangelogBuilder implements Parcelable {
     private boolean mRateButton;
     private boolean mShowSummary;
     private String mCustomTitle;
+    private String mCustomOkLabel;
+    private String mCustomRateLabel;
 
     private int mXmlFileId;
 
@@ -74,6 +76,8 @@ public class ChangelogBuilder implements Parcelable {
         mShowSummary = false;
         // customisation
         mCustomTitle = null;
+        mCustomOkLabel = null;
+        mCustomRateLabel = null;
     }
 
     // ------------------------
@@ -92,6 +96,8 @@ public class ChangelogBuilder implements Parcelable {
         mRateButton = ParcelUtil.readBoolean(in);
         mShowSummary = ParcelUtil.readBoolean(in);
         mCustomTitle = in.readString();
+        mCustomOkLabel = in.readString();
+        mCustomRateLabel = in.readString();
     }
 
     @Override
@@ -112,6 +118,8 @@ public class ChangelogBuilder implements Parcelable {
         ParcelUtil.writeBoolean(dest, mRateButton);
         ParcelUtil.writeBoolean(dest, mShowSummary);
         dest.writeString(mCustomTitle);
+        dest.writeString(mCustomOkLabel);
+        dest.writeString(mCustomRateLabel);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -196,6 +204,20 @@ public class ChangelogBuilder implements Parcelable {
      */
     public final String getCustomTitle() {
         return mCustomTitle;
+    }
+
+    /*
+     * @return a custom ok button string or null
+     */
+    public final String getCustomOkLabel() {
+        return mCustomOkLabel;
+    }
+
+    /*
+     * @return a custom rate button string or null
+     */
+    public final String getCustomRateLabel() {
+        return mCustomRateLabel;
     }
 
     // -----------------
@@ -331,6 +353,28 @@ public class ChangelogBuilder implements Parcelable {
         return this;
     }
 
+    /**
+     * provide a custom ok button text
+     *
+     * @param text the custom ok button text
+     * @return this
+     */
+    public ChangelogBuilder withOkButtonLabel(String text) {
+        mCustomOkLabel = text;
+        return this;
+    }
+
+    /**
+     * provide a custom rate button text
+     *
+     * @param text the custom rate button text
+     * @return this
+     */
+    public ChangelogBuilder withRateButtonLabel(String text) {
+        mCustomRateLabel = text;
+        return this;
+    }
+
     // ------------------------
     // build method
     // ------------------------
@@ -448,7 +492,7 @@ public class ChangelogBuilder implements Parcelable {
 
     public ChangelogRecyclerViewAdapter setupEmptyRecyclerView(RecyclerView recyclerView) {
         ChangelogRecyclerViewAdapter adapter = new ChangelogRecyclerViewAdapter(recyclerView.getContext(), this, new ArrayList<>());
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         return adapter;
     }
