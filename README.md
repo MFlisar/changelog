@@ -129,7 +129,7 @@ Have a look at following classes to see how this works:
 
 #### Custom sorting
 
-* create a custom tag class that implements [IChangelogSorter.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/classes/IChangelogSorter.java) or use the integrated sorter that sorts by importance (new > info > bugfix > custom)
+* create a custom tag class that implements [IChangelogSorter.java](https://github.com/MFlisar/changelog/blob/master/lib/src/main/java/com/michaelflisar/changelog/interfaces/IChangelogSorter.java) or use the integrated sorter that sorts by importance (new > info > bugfix > custom)
 * add it to the builder like following:
 
 ```java
