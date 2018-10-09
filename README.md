@@ -63,6 +63,8 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withOkButtonLabel("Back") // provide a custom ok button text if desired, default one is "OK"
 	.withRateButtonLabel("Wanna rate?") // provide a custom rate button text if desired, default one is "Rate"
 	.buildAndShowDialog(activity, false); // second parameter defines, if the dialog has a dark or light theme
+	
+	// Check advanced usage section for more
 ```
 
 ### Example `changelog.xml`
