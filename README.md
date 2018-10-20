@@ -38,9 +38,11 @@ repositories {
 2. add the compile statement to your module's `build.gradle`:
 ```groovy
 dependencies {
-    compile 'com.github.MFlisar:changelog:1.1.1'
+    compile 'com.github.MFlisar:changelog:NEWEST-VERSION'
 }
 ```
+
+NEWEST-VERSION: [![Release](https://jitpack.io/v/MFlisar/changelog.svg)](https://jitpack.io/#MFlisar/changelog)
 
 ### Demo
 
