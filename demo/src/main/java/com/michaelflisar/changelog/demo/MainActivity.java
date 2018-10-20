@@ -1,8 +1,6 @@
 package com.michaelflisar.changelog.demo;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -10,9 +8,12 @@ import android.widget.Toast;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.classes.ChangelogFilter;
-import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
 import com.michaelflisar.changelog.classes.ImportanceChangelogSorter;
 import com.michaelflisar.changelog.demo.databinding.ActivityMainBinding;
+import com.michaelflisar.changelog.interfaces.IChangelogRateHandler;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 public class MainActivity extends AppCompatActivity implements IChangelogRateHandler {
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements IChangelogRateHan
                 .withSorter(useSorter ? new ImportanceChangelogSorter() : null) // default: null, will show the logs in the same order as they are in the xml file
                 .withRateButton(rateButton) // default: false
                 .withSummary(showSummmary) // default: false
-        ;
+                ;
 
         // add a custom filter if desired
         String stringToFilter = null;

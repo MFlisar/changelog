@@ -112,6 +112,13 @@ public class ChangelogUtil {
             }
         }
 
+        // 4) remove empty headers
+        for (int i = rowsToAdd.size() - 2; i >= 1; i--) {
+            if (rowsToAdd.get(i) instanceof IHeader && rowsToAdd.get(i + 1) instanceof IHeader) {
+                rowsToAdd.remove(i);
+            }
+        }
+
         return rowsToAdd;
     }
 

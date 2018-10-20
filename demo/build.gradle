@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion setup.compileSdk
-    buildToolsVersion setup.buildTools
     dataBinding.enabled = setup.enableDataBinding
 
     defaultConfig {
@@ -26,10 +25,15 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:support-v4:${versions.supportLib}"
-    implementation "com.android.support:appcompat-v7:${versions.supportLib}"
-    implementation "com.android.support:cardview-v7:${versions.supportLib}"
-    implementation "com.android.support:recyclerview-v7:${versions.supportLib}"
+//    implementation "com.android.support:support-v4:${versions.supportLib}"
+//    implementation "com.android.support:appcompat-v7:${versions.supportLib}"
+//    implementation "com.android.support:cardview-v7:${versions.supportLib}"
+//    implementation "com.android.support:recyclerview-v7:${versions.supportLib}"
+
+    implementation "androidx.legacy:legacy-support-v4:${versions.androidX}"
+    implementation "androidx.appcompat:appcompat:${versions.androidX}"
+    implementation "androidx.recyclerview:recyclerview:${versions.androidX}"
+    implementation "androidx.cardview:cardview:${versions.androidX}"
 
     implementation project(':lib')
 }
