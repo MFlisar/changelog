@@ -25,10 +25,19 @@ android {
 }
 
 dependencies {
-    implementation "androidx.legacy:legacy-support-v4:${versions.androidX}"
-    implementation "androidx.appcompat:appcompat:${versions.androidX}"
-    implementation "androidx.recyclerview:recyclerview:${versions.androidX}"
-    implementation "androidx.cardview:cardview:${versions.androidX}"
+
+    // ------------------------
+    // AndroidX
+    // ------------------------
+
+    implementation "androidx.appcompat:appcompat:${androidx.appcompat}"
+    implementation "androidx.recyclerview:recyclerview:${androidx.recyclerview}"
+    implementation "androidx.cardview:cardview:${androidx.cardview}"
+    implementation "com.google.android.material:material:${androidx.material}"
+
+    // ------------------------
+    // Library
+    // ------------------------
 
     implementation project(':lib')
 }

@@ -5,21 +5,10 @@ group = 'com.github.MFlisar'
 
 android {
 
-    if (project.hasProperty('setup.compileSdk'))
-    {
-        compileSdkVersion setup.compileSdk
-        defaultConfig {
-            minSdkVersion setup.minSdk
-            targetSdkVersion setup.targetSdk
-        }
-    }
-    else
-    {
-        compileSdkVersion 28
-        defaultConfig {
-            minSdkVersion 16
-            targetSdkVersion 28
-        }
+    compileSdkVersion setup.compileSdk
+    defaultConfig {
+        minSdkVersion setup.minSdk
+        targetSdkVersion setup.targetSdk
     }
 
     compileOptions {
@@ -28,7 +17,12 @@ android {
     }
 }
 
-dependencies{
-    implementation "androidx.appcompat:appcompat:${versions.androidX}"
-    implementation "com.google.android.material:material:${versions.androidX}"
+dependencies {
+
+    // ------------------------
+    // AndroidX
+    // ------------------------
+
+    implementation "androidx.appcompat:appcompat:${androidx.appcompat}"
+    implementation "com.google.android.material:material:${androidx.material}"
 }
