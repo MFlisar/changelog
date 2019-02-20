@@ -22,11 +22,6 @@ android {
         }
     }
 
-    if (!project.hasProperty('versions.supportLib'))
-    {
-        project.ext.set("versions", ["androidX" : "1.0.0"]);
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
