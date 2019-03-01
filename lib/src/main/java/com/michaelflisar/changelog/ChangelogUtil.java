@@ -3,6 +3,7 @@ package com.michaelflisar.changelog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Pair;
 
 import com.michaelflisar.changelog.interfaces.IChangelogEntry;
 import com.michaelflisar.changelog.interfaces.IChangelogFilter;
@@ -13,6 +14,7 @@ import com.michaelflisar.changelog.items.ItemMore;
 import com.michaelflisar.changelog.items.ItemRelease;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,9 +60,10 @@ public class ChangelogUtil {
      * @param filter               a custom filter
      * @param rows                 list of all items of the changelog that needs to be filtered
      * @param showSummary          true, if summary items should be shown in combination with a "show more" button
+     * @param expandIfNoSummary    true, if a release without a summary entry should expand it's items instead of showing a "show more" button, false otherwise
      * @return the filtered list of items
      */
-    public static List<IRecyclerViewItem> filterItems(int minimumVersionToShow, IChangelogFilter filter, List<IRecyclerViewItem> rows, boolean showSummary) {
+    public static List<IRecyclerViewItem> filterItems(int minimumVersionToShow, IChangelogFilter filter, List<IRecyclerViewItem> rows, boolean showSummary, boolean expandIfNoSummary) {
 
         List<IRecyclerViewItem> rowsToAdd = new ArrayList<>();
         // 1) add all rows that fulfill the min version filter
@@ -83,37 +86,52 @@ public class ChangelogUtil {
         }
         // 3) create summary
         if (showSummary) {
-            ItemMore currentMoreItem = new ItemMore(new ArrayList<>());
-            List<ItemMore> moreItems = new ArrayList<>();
-            moreItems.add(currentMoreItem);
 
-            for (int i = rowsToAdd.size() - 1; i >= 0; i--) {
-                if (rowsToAdd.get(i) instanceof IHeader && i > 0) {
-                    currentMoreItem = new ItemMore(new ArrayList<>());
-                    moreItems.add(currentMoreItem);
-                } else if (rowsToAdd.get(i) instanceof IRow && !((IRow) rowsToAdd.get(i)).isSummary()) {
-                    IRecyclerViewItem item = rowsToAdd.remove(i);
-                    currentMoreItem.addItem(0, item);
+            ArrayList<Pair<IHeader, ArrayList<IRecyclerViewItem>>> headers = new ArrayList<>();
+
+            ItemMore currentMoreItem;// = new ItemMore(new ArrayList<>());
+//            List<ItemMore> moreItems = new ArrayList<>();
+//            moreItems.add(currentMoreItem);
+
+            // 1) create list of header - list of items pairs
+            IHeader currentHeader;// = null;
+            ArrayList<IRecyclerViewItem> currentHeaderList = null;
+            for (int i = 0; i < rowsToAdd.size(); i++) {
+                // if we find a header, we put it into the header map
+                if (rowsToAdd.get(i) instanceof IHeader) {
+                    currentHeader = (IHeader) rowsToAdd.get(i);
+                    currentHeaderList = new ArrayList<>();
+                    headers.add(new Pair<>(currentHeader, currentHeaderList));
+                }
+                // else add the item to the current header
+                else {
+                    currentHeaderList.add(rowsToAdd.get(i));
                 }
             }
 
-            // add show more button(s)
-            int index = 0;
-            if (rowsToAdd.size() > 0) {
-                rowsToAdd.add(moreItems.get(index++));
-            }
-            for (int i = rowsToAdd.size() - 2; i >= 1; i--) {
-                if (rowsToAdd.get(i + 1) instanceof IHeader) {
-                    currentMoreItem = moreItems.get(index++);
-                    if (currentMoreItem.getItems().size() > 0) {
-                        rowsToAdd.add(i + 1, currentMoreItem);
-                    }
+            // 2) create new list and add header + more items (or items) to it
+            List<IRecyclerViewItem> adjustedRowsToAdd = new ArrayList<>();
+            for (int i = 0; i < headers.size(); i++) {
+                currentHeader = headers.get(i).first;
+                currentHeaderList = headers.get(i).second;
+
+                adjustedRowsToAdd.add(currentHeader);
+                // either add items of header
+                if (expandIfNoSummary && !containsListSummaryItem(currentHeaderList)) {
+                    adjustedRowsToAdd.addAll(currentHeaderList);
+                }
+                // or add summary items only and add a show more button
+                else {
+                    adjustedRowsToAdd.addAll(getSummaryItems(currentHeaderList, true));
+                    adjustedRowsToAdd.add(new ItemMore(getSummaryItems(currentHeaderList, false)));
                 }
             }
+
+            rowsToAdd = adjustedRowsToAdd;
         }
 
         // 4) remove empty headers
-        for (int i = rowsToAdd.size() - 2; i >= 1; i--) {
+        for (int i = rowsToAdd.size() - 2; i >= 0; i--) {
             if (rowsToAdd.get(i) instanceof IHeader && rowsToAdd.get(i + 1) instanceof IHeader) {
                 rowsToAdd.remove(i);
             }
@@ -135,5 +153,28 @@ public class ChangelogUtil {
             items.addAll(release.getRows());
         }
         return items;
+    }
+
+    // -------------------------
+    // internal helper functions
+    // -------------------------
+
+    private static boolean containsListSummaryItem(List<IRecyclerViewItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof IRow && ((IRow) items.get(i)).isSummary()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static List<IRecyclerViewItem> getSummaryItems(List<IRecyclerViewItem> items, boolean isSummary) {
+        ArrayList<IRecyclerViewItem> result = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof IRow && ((IRow) items.get(i)).isSummary() == isSummary) {
+                result.add(items.get(i));
+            }
+        }
+        return result;
     }
 }

@@ -46,6 +46,7 @@ public class ChangelogBuilder implements Parcelable {
     private IAutoVersionNameFormatter mAutoVersionNameFormatter;
     private boolean mRateButton;
     private boolean mShowSummary;
+    private boolean mExpandIfNoSummary;
     private String mCustomTitle;
     private String mCustomOkLabel;
     private String mCustomRateLabel;
@@ -74,6 +75,7 @@ public class ChangelogBuilder implements Parcelable {
         mRateButton = false;
         // summary
         mShowSummary = false;
+        mExpandIfNoSummary = false;
         // customisation
         mCustomTitle = null;
         mCustomOkLabel = null;
@@ -95,6 +97,7 @@ public class ChangelogBuilder implements Parcelable {
         mManagedShowOnStart = ParcelUtil.readBoolean(in);
         mRateButton = ParcelUtil.readBoolean(in);
         mShowSummary = ParcelUtil.readBoolean(in);
+        mExpandIfNoSummary = ParcelUtil.readBoolean(in);
         mCustomTitle = in.readString();
         mCustomOkLabel = in.readString();
         mCustomRateLabel = in.readString();
@@ -117,6 +120,7 @@ public class ChangelogBuilder implements Parcelable {
         ParcelUtil.writeBoolean(dest, mManagedShowOnStart);
         ParcelUtil.writeBoolean(dest, mRateButton);
         ParcelUtil.writeBoolean(dest, mShowSummary);
+        ParcelUtil.writeBoolean(dest, mExpandIfNoSummary);
         dest.writeString(mCustomTitle);
         dest.writeString(mCustomOkLabel);
         dest.writeString(mCustomRateLabel);
@@ -197,6 +201,13 @@ public class ChangelogBuilder implements Parcelable {
      */
     public final boolean isShowSummary() {
         return mShowSummary;
+    }
+
+    /*
+     * @return true if a release without a summary item should be shown expanded, false otherwise
+     */
+    public final boolean isExpandIfNoSummary() {
+        return mExpandIfNoSummary;
     }
 
     /*
@@ -335,10 +346,12 @@ public class ChangelogBuilder implements Parcelable {
      * ATTENTION: Summary entries will ALWAYS be shown before other entries; sorting is applied to entries and the rest individually!
      *
      * @param showSummary true, if you want to show a summary, false otherwise
+     * @param expandIfNoSummary true, if a release without a summary entry should expand it's items instead of showing a "show more" button, false otherwise
      * @return this
      */
-    public ChangelogBuilder withSummary(boolean showSummary) {
+    public ChangelogBuilder withSummary(boolean showSummary, boolean expandIfNoSummary) {
         mShowSummary = showSummary;
+        mExpandIfNoSummary = expandIfNoSummary;
         return this;
     }
 
@@ -486,7 +499,7 @@ public class ChangelogBuilder implements Parcelable {
     public List<IRecyclerViewItem> getRecyclerViewItems(Context context) {
         Changelog changelog = build(context);
         List<IRecyclerViewItem> items = changelog.getAllRecyclerViewItems();
-        items = ChangelogUtil.filterItems(mMinVersionToShow, mFilter, items, mShowSummary);
+        items = ChangelogUtil.filterItems(mMinVersionToShow, mFilter, items, mShowSummary, mExpandIfNoSummary);
         return items;
     }
 

@@ -22,16 +22,22 @@
         <bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
     </release>
     <release versionCode="105" versionName="Version 1.05" date="2018-03-02" filter="cats">
+        <info type="summary">single summary of version 1.05</info>
         <info>Some cats info - filter only set in release tag</info>
         <new>Some cats improvement - filter only set in release tag</new>
         <bugfix>Some cats bugfix - filter only set in release tag</bugfix>
     </release>
     <release versionCode="100" versionName="First release" date="2018-03-01">
+        <info filter="cats" type="summary">single cats summary of version 1.00</info>
+        <info filter="dogs" type="summary">single dogs summary of version 1.00</info>
         <info filter="cats">New cats added - this info has filter text 'cats'</info>
         <info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
         <new filter="cats">Some cats improvement - this info has filter text 'cats'</new>
         <new filter="dogs">Some dogs improvement - this info has filter text 'dogs'</new>
         <bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
         <bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
+    </release>
+    <release versionCode="90" versionName="First beta" date="2018-02-01">
+        <info>this release does not have any summary item and will be shown expanded even if summary is enabled - this behaviour can be adjusted by the second parameter in the builder with which you enable summaries</info>
     </release>
 </changelog>

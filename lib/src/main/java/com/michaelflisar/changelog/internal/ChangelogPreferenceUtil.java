@@ -15,7 +15,7 @@ public class ChangelogPreferenceUtil {
     private static final String PREF_FILE = "com.michaelflisar.changelog";
     private static final String PREF_KEY = "changelogVersion";
 
-    private static int getAlreadyShownChangelogVersion(Context context) {
+    public static int getAlreadyShownChangelogVersion(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
         return prefs.getInt(PREF_KEY, -1);
     }

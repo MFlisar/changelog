@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements IChangelogRateHan
                 .withMinVersionToShow(showVersion11OrHigherOnly ? 110 : -1) // default: -1, will show all version
                 .withSorter(useSorter ? new ImportanceChangelogSorter() : null) // default: null, will show the logs in the same order as they are in the xml file
                 .withRateButton(rateButton) // default: false
-                .withSummary(showSummmary) // default: false
+                .withSummary(showSummmary, true) // default: false
                 ;
 
         // add a custom filter if desired
