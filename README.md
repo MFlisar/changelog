@@ -59,7 +59,7 @@ ChangelogBuilder builder = new ChangelogBuilder()
 	.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
 	.withManagedShowOnStart(true)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
 	.withRateButton(true) // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
-	.withSummary(true) // enable this to show a summary and a "show more" button
+	.withSummary(true, true) // enable this to show a summary and a "show more" button, the second paramter describes if releases without summary items should be shown expanded or not
 	.withVersionNameFormatter(new DefaultAutoVersionNameFormatter(DefaultAutoVersionNameFormatter.Type.MajorMinor, "b")) // Will format a version 100 like "1.0b", default is without the b
 	.withTitle("Some custom title") // provide a custom title if desired, default one is "Changelog <VERSION>"
 	.withOkButtonLabel("Back") // provide a custom ok button text if desired, default one is "OK"
