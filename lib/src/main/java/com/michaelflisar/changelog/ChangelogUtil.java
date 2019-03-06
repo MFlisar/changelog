@@ -117,13 +117,14 @@ public class ChangelogUtil {
 
                 adjustedRowsToAdd.add(currentHeader);
                 // either add items of header
-                if (expandIfNoSummary && !containsListSummaryItem(currentHeaderList)) {
+                if (expandIfNoSummary && !containsSummaryItem(currentHeaderList)) {
                     adjustedRowsToAdd.addAll(currentHeaderList);
                 }
                 // or add summary items only and add a show more button
                 else {
                     adjustedRowsToAdd.addAll(getSummaryItems(currentHeaderList, true));
-                    adjustedRowsToAdd.add(new ItemMore(getSummaryItems(currentHeaderList, false)));
+                    if (containsNonSummaryItem(currentHeaderList))
+                        adjustedRowsToAdd.add(new ItemMore(getSummaryItems(currentHeaderList, false)));
                 }
             }
 
@@ -159,9 +160,18 @@ public class ChangelogUtil {
     // internal helper functions
     // -------------------------
 
-    private static boolean containsListSummaryItem(List<IRecyclerViewItem> items) {
+    private static boolean containsSummaryItem(List<IRecyclerViewItem> items) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i) instanceof IRow && ((IRow) items.get(i)).isSummary()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean containsNonSummaryItem(List<IRecyclerViewItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof IRow && !((IRow) items.get(i)).isSummary()) {
                 return true;
             }
         }

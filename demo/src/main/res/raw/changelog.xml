@@ -1,4 +1,6 @@
 <changelog>
+
+
     <release versionCode="120" date="2018-03-04">
         <info>Some info 1 - apostrophe test: it's weird, but apostrophes do not work in precompiled xml files placed in xml resources!</info>
         <new type="summary">Some improvement 1</new>
@@ -10,6 +12,9 @@
         <new>Some improvement 3</new>
         <bugfix>Some bugfix 3</bugfix>
         <customTag>My custom tag text...</customTag>
+    </release>
+    <release versionCode="118" date="2018-03-04">
+        <new type="summary">This version has a summary item only - no show more button will be shown even if show more buttons are enabled</new>
     </release>
     <release versionCode="115" date="2018-03-04">
         <info>Some info</info>
