@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ChangelogDialogDarkTheme" parent="@style/Theme.AppCompat.Dialog">
+    <style name="ChangelogDialogDarkTheme" parent="@style/Theme.MaterialComponents.Dialog">
         <item name="android:windowNoTitle">false</item>
     </style>
 
-    <style name="ChangelogDialogLightTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+    <style name="ChangelogDialogLightTheme" parent="@style/Theme.MaterialComponents.Light.Dialog">
         <item name="android:windowNoTitle">false</item>
     </style>
 
@@ -28,12 +28,13 @@
         <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
     </style>
 
-    <style name="ChangelogMore" parent="Widget.AppCompat.Button.Borderless.Colored">
+    <style name="ChangelogMore" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingRight">0dp</item>
         <item name="android:layout_marginRight">0dp</item>
         <item name="android:layout_gravity">right|end</item>
+        <item name="android:foreground">?selectableItemBackground</item>
     </style>
 
 </resources>
