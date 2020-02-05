@@ -1,17 +1,17 @@
 ext {
 
     setup = [
-            compileSdk       : 28,
+            compileSdk       : 29,
             enableDataBinding: true,
             minSdk           : 16,
-            targetSdk        : 28
+            targetSdk        : 29
     ]
 
     androidx = [
-            appcompat   : "1.0.2",
-            recyclerview: "1.0.0",
+            appcompat   : "1.1.0",
+            recyclerview: "1.1.0",
             cardview    : "1.0.0",
-            material    : "1.0.0"
+            material    : "1.2.0-alpha04"
     ]
 
     versions = [
