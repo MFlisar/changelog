@@ -3,7 +3,8 @@
 
     <application>
 
-        <activity android:name=".internal.ChangelogActivity"/>
+        <activity
+            android:name=".internal.ChangelogActivity"/>
 
     </application>
 

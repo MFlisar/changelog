@@ -11,11 +11,11 @@ ext {
             appcompat   : "1.1.0",
             recyclerview: "1.1.0",
             cardview    : "1.0.0",
-            material    : "1.2.0-alpha04"
+            material    : "1.1.0"
     ]
 
     versions = [
-            gradlePlugin: "3.4.0",
+            gradlePlugin: "3.4.2",
             mavenVersion: "2.1"
     ]
 }

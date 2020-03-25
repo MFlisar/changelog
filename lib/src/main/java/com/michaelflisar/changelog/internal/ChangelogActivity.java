@@ -5,21 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
-
-import com.michaelflisar.changelog.ChangelogBuilder;
-import com.michaelflisar.changelog.ChangelogUtil;
-import com.michaelflisar.changelog.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.michaelflisar.changelog.ChangelogBuilder;
+import com.michaelflisar.changelog.ChangelogUtil;
+import com.michaelflisar.changelog.R;
+
 /**
  * Created by flisar on 06.03.2018.
  */
 
-public class ChangelogActivity extends AppCompatActivity {
+public class ChangelogActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static Intent createIntent(Context context, ChangelogBuilder changelogBuilder, Integer theme, boolean themeHasActionBar) {
         Intent intent = new Intent(context, ChangelogActivity.class);
@@ -56,6 +57,15 @@ public class ChangelogActivity extends AppCompatActivity {
             title = getString(R.string.changelog_dialog_title, ChangelogUtil.getAppVersionName(this));
         }
 
+        Button btRateMe = findViewById(R.id.btRateMe);
+        String rateButtonText = mBuilder.getCustomRateLabel();
+        if (rateButtonText != null) {
+            btRateMe.setText(rateButtonText);
+        }
+        if (!mBuilder.isUseRateButton())
+            btRateMe.setVisibility(View.GONE);
+        btRateMe.setOnClickListener(this);
+
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -83,5 +93,10 @@ public class ChangelogActivity extends AppCompatActivity {
             mAsyncTask.cancel(true);
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View view) {
+        RateMeUtil.openPlayStore(this);
     }
 }

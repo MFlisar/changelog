@@ -368,6 +368,7 @@ public class ChangelogBuilder implements Parcelable {
 
     /**
      * provide a custom ok button text
+     * ONLY USED WITH DIALOG MODE!
      *
      * @param text the custom ok button text
      * @return this
