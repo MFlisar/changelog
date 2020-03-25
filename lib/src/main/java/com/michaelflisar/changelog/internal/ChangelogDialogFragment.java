@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogUtil;
 import com.michaelflisar.changelog.R;
@@ -57,7 +58,7 @@ public class ChangelogDialogFragment extends DialogFragment {
             rateButtonText = getContext().getString(R.string.changelog_dialog_rate);
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(title)
                 .setPositiveButton(okButtonText, (dialog, which) -> dialog.dismiss());
 
