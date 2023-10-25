@@ -26,6 +26,12 @@ This is a simple builder based changelog library that shows a changelog in a `Re
 ![Changelog dialog-sorted](https://github.com/MFlisar/changelog/blob/master/images/activity-sorted.png)
 ![Changelog custom](https://github.com/MFlisar/changelog/blob/master/images/custom.png)
 ![Changelog custom](https://github.com/MFlisar/changelog/blob/master/images/summary.png)
+
+### Compose version
+
+You can find a **compose version** here: [ComposeChangelog](https://github.com/MFlisar/ComposeChangelog)
+
+It does have some improvements like it won't show empty changelogs, it does use coroutines to load data, its even more modular and code was cleaned.
  
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
